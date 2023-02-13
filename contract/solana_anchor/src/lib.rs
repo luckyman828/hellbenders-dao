@@ -316,7 +316,7 @@ pub mod solana_anchor {
 
         msg!("enough sol");
         
-        let discount : u64 = 100;
+        let mut discount : u64 = 100;
 
         if _fake_id_hold
         {
@@ -707,7 +707,7 @@ pub mod solana_anchor {
 
         msg!("enough sol");
         
-        let discount : u64 = 0;
+        let mut discount : u64 = 0;
         let redlist_token_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.redlist_token_account.data.borrow())?;
 
         if redlist_token_account.mint == pool.redlist_gold {
