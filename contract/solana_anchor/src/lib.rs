@@ -321,11 +321,11 @@ pub mod solana_anchor {
 
         msg!("enough sol");
         
-        let discount : f32 = 1;
+        let discount : u64 = 100;
 
         if _fake_id_hold
         {
-            discount = 0.95;
+            discount = 95;
         }
 
         msg!("discount");
@@ -335,7 +335,7 @@ pub mod solana_anchor {
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
                     ctx.accounts.scoby_wallet.key,
-                    pool.minting_price * pool.royalty_for_minting.scoby as u64 / 10000 * discount
+                    pool.minting_price * pool.royalty_for_minting.scoby as u64 / 10000 * discount / 100
                 ),
                 &[
                     ctx.accounts.owner.clone(),
@@ -352,7 +352,7 @@ pub mod solana_anchor {
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
                     creator_wallet,
-                    pool.minting_price * pool.royalty_for_minting.creator as u64 / 10000 * discount
+                    pool.minting_price * pool.royalty_for_minting.creator as u64 / 10000 * discount / 100
                 ),
                 &[
                     ctx.accounts.owner.clone(),
@@ -367,7 +367,7 @@ pub mod solana_anchor {
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
                     parent_nft_owner,
-                    pool.minting_price * pool.royalty_for_minting.parent as u64 / 10000 * discount 
+                    pool.minting_price * pool.royalty_for_minting.parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
@@ -382,7 +382,7 @@ pub mod solana_anchor {
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
                     grand_parent_nft_owner,
-                    pool.minting_price * pool.royalty_for_minting.grand_parent as u64 / 10000 * discount 
+                    pool.minting_price * pool.royalty_for_minting.grand_parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
@@ -397,7 +397,7 @@ pub mod solana_anchor {
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
                     grand_grand_parent_nft_owner,
-                    pool.minting_price * pool.royalty_for_minting.grand_grand_parent as u64 / 10000 * discount 
+                    pool.minting_price * pool.royalty_for_minting.grand_grand_parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
@@ -413,7 +413,7 @@ pub mod solana_anchor {
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
                     grand_grand_grand_parent_nft_owner,
-                    pool.minting_price * pool.royalty_for_minting.grand_grand_grand_parent as u64 / 10000 * discount 
+                    pool.minting_price * pool.royalty_for_minting.grand_grand_grand_parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
@@ -720,22 +720,22 @@ pub mod solana_anchor {
 
         msg!("enough sol");
         
-        let discount : f32 = 1;
+        let discount : u64 = 0;
         let redlist_token_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.redlist_token_account.data.borrow())?;
 
         if redlist_token_account.mint == pool.redlist_gold {
-            discount = 0.2;
+            discount = 20;
         } else if redlist_token_account == pool.redlist_steel {
-            discount = 0.15;
+            discount = 15;
         } else if redlist_token_account.mint == pool.redlist_black {
-            discount = 0.1;
+            discount = 10;
         }
 
         
         if _fake_id_hold {
-            discount = 1 - (discount * 2);
+            discount = 100 - (discount * 2);
         } else {
-            discount = 1- discount;
+            discount = 100- discount;
         }
         
         if *ctx.accounts.owner.key != scoby_wallet {
@@ -743,7 +743,7 @@ pub mod solana_anchor {
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
                     ctx.accounts.scoby_wallet.key,
-                    pool.minting_price * pool.royalty_for_minting.scoby as u64 / 10000 * discount
+                    pool.minting_price * pool.royalty_for_minting.scoby as u64 / 10000 * discount / 100
                 ),
                 &[
                     ctx.accounts.owner.clone(),
@@ -760,7 +760,7 @@ pub mod solana_anchor {
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
                     creator_wallet,
-                    pool.minting_price * pool.royalty_for_minting.creator as u64 / 10000 * discount
+                    pool.minting_price * pool.royalty_for_minting.creator as u64 / 10000 * discount / 100
                 ),
                 &[
                     ctx.accounts.owner.clone(),
@@ -775,11 +775,11 @@ pub mod solana_anchor {
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
                     parent_nft_owner,
-                    pool.minting_price * pool.royalty_for_minting.parent as u64 / 10000 * discount 
+                    pool.minting_price * pool.royalty_for_minting.parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    grand_parent_nft_owner,
+                    &parent_nft_owner,
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -790,11 +790,11 @@ pub mod solana_anchor {
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
                     grand_parent_nft_owner,
-                    pool.minting_price * pool.royalty_for_minting.grand_parent as u64 / 10000 * discount 
+                    pool.minting_price * pool.royalty_for_minting.grand_parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    grand_parent_nft_owner,
+                    &grand_parent_nft_owner,
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -805,11 +805,11 @@ pub mod solana_anchor {
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
                     grand_grand_parent_nft_owner,
-                    pool.minting_price * pool.royalty_for_minting.grand_grand_parent as u64 / 10000 * discount 
+                    pool.minting_price * pool.royalty_for_minting.grand_grand_parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    grand_grand_parent_nft_owner,
+                    &grand_grand_parent_nft_owner,
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -821,11 +821,11 @@ pub mod solana_anchor {
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
                     grand_grand_grand_parent_nft_owner,
-                    pool.minting_price * pool.royalty_for_minting.grand_grand_grand_parent as u64 / 10000 * discount
+                    pool.minting_price * pool.royalty_for_minting.grand_grand_grand_parent as u64 / 10000 * discount / 100
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    grand_grand_grand_parent_nft_owner,
+                    &grand_grand_grand_parent_nft_owner,
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
