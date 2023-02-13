@@ -323,7 +323,7 @@ pub mod solana_anchor {
         
         let discount : f32 = 1;
 
-        if (_fake_id_hold)
+        if _fake_id_hold
         {
             discount = 0.95;
         }
@@ -723,16 +723,16 @@ pub mod solana_anchor {
         let discount : f32 = 1;
         let redlist_token_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.redlist_token_account.data.borrow())?;
 
-        if (redlist_token_account.mint == pool.redlist_gold) {
+        if redlist_token_account.mint == pool.redlist_gold {
             discount = 0.2;
-        } else if ( redlist_token_account == pool.redlist_steel) {
+        } else if redlist_token_account == pool.redlist_steel {
             discount = 0.15;
-        } else if ( redlist_token_account.mint == pool.redlist_black) {
+        } else if redlist_token_account.mint == pool.redlist_black {
             discount = 0.1;
         }
 
         
-        if (_fake_id_hold) {
+        if _fake_id_hold {
             discount = 1 - (discount * 2);
         } else {
             discount = 1- discount;
@@ -1138,7 +1138,7 @@ pub struct Mint<'info>{
 
 #[derive(Accounts)]
 #[instruction(_bump : u8)]
-pub struct Mint<'info>{
+pub struct MintWithRedlist<'info>{
     #[account(mut, signer)]
     owner : AccountInfo<'info>,
 
