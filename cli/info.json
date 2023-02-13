@@ -1,10 +1,13 @@
 {
 	"maxNumberOfLines" : 1,
-	"symbol" : "HELLPASS",
+	"symbol" : "DAOorDIE",
 	"creator" : "4NCF6k76LThBY5Kx6jUBFeY5b7rLULoFugmGDX9Jx77B",
 	"sellerFee" : 2000,
 	"updateAuthority" : "5naz6yeUatB3QmYApqxM1qGKDHLuxrMzVcHto1gyyxkk",
 	"scobyWallet" : "BhfqmcMMEbf5gRJ4hwXzmso7BiBYztpnuqTjzXNt9sEe",
+	"redlistBlack" : "6Rc7PjgTpBMxx8AcY9DPCXXZEzFKL8yxuPuY2JtYVTKT",
+	"redlistSteel" : "Gk4cCRu2HnqWm19kjkDiuseQfnRRLbnDEdRJCYWHBTQx",
+	"redlistGold" : "633EXNLhaCYsZtWC2nCNVvffkkZoXHHQbWJJF2pN46Kt",
 	"mintingPrice" : 6.66,
 	"royaltyForMinting" : {
 		"scoby" : 0,
