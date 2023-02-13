@@ -774,12 +774,12 @@ pub mod solana_anchor {
             invoke(
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
-                    parent_nft_owner,
+                    &parent_nft_owner,
                     pool.minting_price * pool.royalty_for_minting.parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    &parent_nft_owner,
+                    parent_nft_owner,
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -789,12 +789,12 @@ pub mod solana_anchor {
             invoke(
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
-                    grand_parent_nft_owner,
+                    &grand_parent_nft_owner,
                     pool.minting_price * pool.royalty_for_minting.grand_parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    &grand_parent_nft_owner,
+                    grand_parent_nft_owner,
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -804,12 +804,12 @@ pub mod solana_anchor {
             invoke(
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
-                    grand_grand_parent_nft_owner,
+                    &grand_grand_parent_nft_owner,
                     pool.minting_price * pool.royalty_for_minting.grand_grand_parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    &grand_grand_parent_nft_owner,
+                    grand_grand_parent_nft_owner,
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -820,12 +820,12 @@ pub mod solana_anchor {
             invoke(
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
-                    grand_grand_grand_parent_nft_owner,
+                    &grand_grand_grand_parent_nft_owner,
                     pool.minting_price * pool.royalty_for_minting.grand_grand_grand_parent as u64 / 10000 * discount / 100
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    &grand_grand_grand_parent_nft_owner,
+                    grand_grand_grand_parent_nft_owner,
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
