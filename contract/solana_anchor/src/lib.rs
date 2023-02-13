@@ -366,7 +366,7 @@ pub mod solana_anchor {
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    ctx.accounts.parent_nft_owner.clone,
+                    ctx.accounts.parent_nft_owner.clone(),
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -712,7 +712,7 @@ pub mod solana_anchor {
 
         if redlist_token_account.mint == pool.redlist_gold {
             discount = 20;
-        } else if redlist_token_account == pool.redlist_steel {
+        } else if redlist_token_account.mint == pool.redlist_steel {
             discount = 15;
         } else if redlist_token_account.mint == pool.redlist_black {
             discount = 10;
@@ -768,7 +768,7 @@ pub mod solana_anchor {
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    ctx.accounts.parent_nft_owner.clone,
+                    ctx.accounts.parent_nft_owner.clone(),
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
