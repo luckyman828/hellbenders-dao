@@ -381,7 +381,7 @@ pub mod solana_anchor {
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    ctx.accounts.grand_parent_nft_owner.clone(),,
+                    ctx.accounts.grand_parent_nft_owner.clone(),
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -783,7 +783,7 @@ pub mod solana_anchor {
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    ctx.accounts.grand_parent_nft_owner.clone(),,
+                    ctx.accounts.grand_parent_nft_owner.clone(),
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
