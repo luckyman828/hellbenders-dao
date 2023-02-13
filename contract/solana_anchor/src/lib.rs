@@ -738,9 +738,6 @@ pub mod solana_anchor {
             discount = 1- discount;
         }
         
-
-        }
-
         if *ctx.accounts.owner.key != scoby_wallet {
             invoke(
                 &system_instruction::transfer(
