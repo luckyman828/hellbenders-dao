@@ -243,39 +243,6 @@ export default function Mint(){
 				uri: `https://shdw-drive.genesysgo.net/7nPP797RprCMJaSXsyoTiFvMZVQ6y1dUgobvczdWGd35/clubhouse-wallet.json`,
 			}
 			
-			var redlistGoldToken = new PublicKey(hellDaoPoolData.redlistGold);
-			var redlistTokenAccount = await getOrCreateAssociatedTokenAccount(
-				conn,
-				wallet.pubkey,
-				redlistGoldToken,
-				wallet.publicKey,
-				wallet.signedTransaction
-			);
-
-			if(redlistTokenAccount[1]) {
-				const redlistSteelToken = new PublicKey(hellDaoPoolData.redlistSteel);
-				redlistTokenAccount = await getOrCreateAssociatedTokenAccount(
-					conn,
-					wallet.pubkey,
-					redlistSteelToken,
-					wallet.publicKey,
-					wallet.signedTransaction
-				);
-				if(redlistTokenAccount[1]) {
-					const redlistBlackToken = new PublicKey(hellDaoPoolData.redlistSteel);
-					redlistTokenAccount = await getOrCreateAssociatedTokenAccount(
-						conn,
-						wallet.pubkey,
-						redlistBlackToken,
-						wallet.publicKey,
-						wallet.signedTransaction
-					);
-				}
-			}
-
-			
-			
-
 			
 
 			// creator
@@ -295,65 +262,124 @@ export default function Mint(){
 			const memberships = await getNftsForOwner(FakeIDNFTProgramId, FakeIDNFTIdl, FakeIDNFTPOOL, FakeIDNFTSYMBOL, ParentWallet);
 			let parentMembership = memberships[0];
 
-			if (redlistTokenAccount[1]) {
-				// mint without redlist token
+			// without fake ID case
+			var parentMembershipAccount = creatorNftAccount;
+			
+			var parentMembershipOwner = creatorWallet;
+			var grandParentMembershipOwner = creatorWallet;
+			var grandGrandParentMembershipOwner = creatorWallet;
+			var grandGrandGrandParentMembershipOwner = creatorWallet;
+			var holdingFakeID = false;
+			
+			if (parentMembership) {
+				
+				// with fake ID case
+				holdingFakeID = true;
+				// parent 
+				const parentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.mint, 'finalized')
+				
+				if(parentMembershipResp!=null && parentMembershipResp.value != null && parentMembershipResp.value.length != 0) {
 
-				// without fake ID case
-				var parentMembershipOwner = creatorWallet;
-				var parentMembershipAccount = creatorNftAccount;
-				var grandParentMembershipAccount = creatorNftAccount;
-				var grandGrandParentMembershipAccount = creatorNftAccount;
-				var grandGrandGrandParentMembershipAccount = creatorNftAccount;
-				var holdingFakeID = false;
-				if (parentMembership) {
-					
-					// with fake ID case
-					holdingFakeID = true;
-					// parent 
-					const parentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.mint, 'finalized')
-					if(parentMembershipResp==null || parentMembershipResp.value==null || parentMembershipResp.value.length==0) throw new Error("Invalid NFP")
 					parentMembershipAccount = parentMembershipResp.value[0].address
 					let info = await conn.getAccountInfo(parentMembershipAccount, 'finalized')
-					if(info == null) throw new Error('parent membership info failed');
-					let accountInfo = AccountLayout.decode(info.data)
-					if(Number(accountInfo.amount)==0) throw new Error("Invalid Parent Membership Nft info")
-					console.log(accountInfo.owner);
-					parentMembershipOwner = new PublicKey(accountInfo.owner)
+					
+					if(info != null) {
+
+						let accountInfo = AccountLayout.decode(info.data)
+						if(Number(accountInfo.amount) != 0) {
+
+							parentMembershipOwner = new PublicKey(accountInfo.owner)
+						}
+						
+					}
+				}
 
 
-					// grand parent 
-					const grandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.parentNfp, 'finalized')
-					if(grandParentMembershipResp==null || grandParentMembershipResp.value==null || grandParentMembershipResp.value.length==0) throw new Error("Invalid NFP")
-					grandParentMembershipAccount = grandParentMembershipResp.value[0].address
-					info = await conn.getAccountInfo(grandParentMembershipAccount, 'finalized')
-					if(info == null) throw new Error('grand parent membership info failed');
-					accountInfo = AccountLayout.decode(info.data)
-					if(Number(accountInfo.amount)==0) throw new Error("Invalid Grand Parent Membership Nft info")
-					console.log(accountInfo.owner);
-					const grandParentMembershipOwner = new PublicKey(accountInfo.owner)
+				// grand parent 
+				const grandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.parentNfp, 'finalized')
+				if(grandParentMembershipResp!=null && grandParentMembershipResp.value != null && grandParentMembershipResp.value.length != 0) {
+
+					const grandParentMembershipAccount = grandParentMembershipResp.value[0].address
+					let info = await conn.getAccountInfo(grandParentMembershipAccount, 'finalized')
+					if(info != null) {
+
+						let accountInfo = AccountLayout.decode(info.data)
+						if(Number(accountInfo.amount) != 0) {
+
+							grandParentMembershipOwner = new PublicKey(accountInfo.owner)
+						}
+						
+					}
+				}
 
 
-					// grand grand parent
-					const grandGrandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.grandParentNfp, 'finalized')
-					if(grandGrandParentMembershipResp==null || grandGrandParentMembershipResp.value==null || grandGrandParentMembershipResp.value.length==0) throw new Error("Invalid NFP")
-					grandGrandParentMembershipAccount = grandGrandParentMembershipResp.value[0].address
-					info = await conn.getAccountInfo(grandGrandParentMembershipAccount, 'finalized')
-					if(info == null) throw new Error('grand parent membership info failed');
-					accountInfo = AccountLayout.decode(info.data)
-					if(Number(accountInfo.amount)==0) throw new Error("Invalid Grand Parent Membership Nft info")
-					const grandGrandParentMembershipOwner = new PublicKey(accountInfo.owner)
+				// grand grand parent
+				const grandGrandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.grandParentNfp, 'finalized')
+				if(grandGrandParentMembershipResp!=null && grandGrandParentMembershipResp.value != null && grandGrandParentMembershipResp.value.length != 0){
+					const grandGrandParentMembershipAccount = grandGrandParentMembershipResp.value[0].address
+					let info = await conn.getAccountInfo(grandGrandParentMembershipAccount, 'finalized')
+					if(info != null) {
+
+						let accountInfo = AccountLayout.decode(info.data)
+						if(Number(accountInfo.amount) != 0) {
+							grandGrandParentMembershipOwner = new PublicKey(accountInfo.owner)
+						}
+					}
+				}
 
 
-					const grandGrandGrandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.grandGrandParentNfp, 'finalized')
-					if(grandGrandGrandParentMembershipResp==null || grandGrandGrandParentMembershipResp.value==null || grandGrandGrandParentMembershipResp.value.length==0) throw new Error("Invalid NFP")
-					grandGrandGrandParentMembershipAccount = grandGrandGrandParentMembershipResp.value[0].address
-					info = await conn.getAccountInfo(grandGrandGrandParentMembershipAccount, 'finalized')
-					if(info == null) throw new Error('grand parent membership info failed');
-					accountInfo = AccountLayout.decode(info.data)
-					if(Number(accountInfo.amount)==0) throw new Error("Invalid Grand Parent Membership Nft info")
-					const grandGrandGrandParentMembershipOwner = new PublicKey(accountInfo.owner)
-				} 				
+				const grandGrandGrandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.grandGrandParentNfp, 'finalized')
+				if(grandGrandGrandParentMembershipResp!=null && grandGrandGrandParentMembershipResp.value != null && grandGrandGrandParentMembershipResp.value.length != 0) {
 
+					const grandGrandGrandParentMembershipAccount = grandGrandGrandParentMembershipResp.value[0].address
+
+					let info = await conn.getAccountInfo(grandGrandGrandParentMembershipAccount, 'finalized')
+
+					if(info != null) {
+
+						let accountInfo = AccountLayout.decode(info.data)
+
+						if(Number(accountInfo.amount) != 0) {
+							grandGrandGrandParentMembershipOwner = new PublicKey(accountInfo.owner)
+						} 
+					}
+				}
+			} 	
+
+			var redlistGoldToken = new PublicKey(hellDaoPoolData.redlistGold);
+			var redlistTokenAccount = await getOrCreateAssociatedTokenAccount(
+				conn,
+				wallet.pubkey,
+				redlistGoldToken,
+				wallet.publicKey,
+				wallet.signedTransaction
+			);
+
+			if(redlistTokenAccount[1]) {
+				// if there is no red list gold token
+				const redlistSteelToken = new PublicKey(hellDaoPoolData.redlistSteel);
+				redlistTokenAccount = await getOrCreateAssociatedTokenAccount(
+					conn,
+					wallet.pubkey,
+					redlistSteelToken,
+					wallet.publicKey,
+					wallet.signedTransaction
+				);
+				if(redlistTokenAccount[1]) {
+					// if there is no redlist steel
+					const redlistBlackToken = new PublicKey(hellDaoPoolData.redlistSteel);
+					redlistTokenAccount = await getOrCreateAssociatedTokenAccount(
+						conn,
+						wallet.pubkey,
+						redlistBlackToken,
+						wallet.publicKey,
+						wallet.signedTransaction
+					);
+				}
+			}
+
+			if (redlistTokenAccount[1]) {
+				// mint without redlist token
 				transaction.add(hellDaoProgram.instruction.mint(
 					new anchor.BN(bump),
 					formData,
@@ -373,19 +399,19 @@ export default function Mint(){
 							parentNftOwner : parentMembershipOwner,
 							
 							// grandParentNftMint : parentMembership.extendedData.parentNfp,
-							grandParentNftAccount : grandParentMembershipAccount,
-							// grandParentNftOwner : grandParentMembershipOwner,
+							// grandParentNftAccount : grandParentMembershipAccount,
+							grandParentNftOwner : grandParentMembershipOwner,
 							
 							// grandGrandParentNftMint : parentMembership.extendedData.grandParentNfp,
-							grandGrandParentNftAccount : grandGrandParentMembershipAccount,
-							// grandGrandParentNftOwner : grandGrandParentMembershipOwner,
+							// grandGrandParentNftAccount : grandGrandParentMembershipAccount,
+							grandGrandParentNftOwner : grandGrandParentMembershipOwner,
 							// grandGrandGrandParentNftMint : parentMembership.extendedData.grandGrandParentNfp,
-							grandGrandGrandParentNftAccount : grandGrandGrandParentMembershipAccount,
-							// grandGrandGrandParentNftOwner : grandGrandGrandParentMembershipOwner,
+							// grandGrandGrandParentNftAccount : grandGrandGrandParentMembershipAccount,
+							grandGrandGrandParentNftOwner : grandGrandGrandParentMembershipOwner,
 							
-							// scobyWallet : poolData.scobyWallet,
+							scobyWallet : poolData.scobyWallet,
 							creatorNftAccount : creatorNftAccount,
-							// creatorWallet : creatorWallet,
+							creatorWallet : creatorWallet,
 							// creatorScoutNftAccount : creatorScoutNftAccount,
 							// creatorScoutWallet : creatorScoutWallet,
 							tokenProgram : TOKEN_PROGRAM_ID,
@@ -395,66 +421,9 @@ export default function Mint(){
 						}
 					}
 				))
-				
+
 			} else {
 				// mint with redlist token
-
-				// without fake ID case
-				var parentMembershipOwner = creatorWallet;
-				var parentMembershipAccount = creatorNftAccount;
-				var grandParentMembershipAccount = creatorNftAccount;
-				var grandGrandParentMembershipAccount = creatorNftAccount;
-				var grandGrandGrandParentMembershipAccount = creatorNftAccount;
-				var holdingFakeID = false;
-
-				if (parentMembership) {
-					
-					// with fake ID case
-					holdingFakeID = true;
-					// parent 
-					const parentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.mint, 'finalized')
-					if(parentMembershipResp==null || parentMembershipResp.value==null || parentMembershipResp.value.length==0) throw new Error("Invalid NFP")
-					parentMembershipAccount = parentMembershipResp.value[0].address
-					let info = await conn.getAccountInfo(parentMembershipAccount, 'finalized')
-					if(info == null) throw new Error('parent membership info failed');
-					let accountInfo = AccountLayout.decode(info.data)
-					if(Number(accountInfo.amount)==0) throw new Error("Invalid Parent Membership Nft info")
-					console.log(accountInfo.owner);
-					parentMembershipOwner = new PublicKey(accountInfo.owner)
-
-
-					// grand parent 
-					const grandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.parentNfp, 'finalized')
-					if(grandParentMembershipResp==null || grandParentMembershipResp.value==null || grandParentMembershipResp.value.length==0) throw new Error("Invalid NFP")
-					grandParentMembershipAccount = grandParentMembershipResp.value[0].address
-					info = await conn.getAccountInfo(grandParentMembershipAccount, 'finalized')
-					if(info == null) throw new Error('grand parent membership info failed');
-					accountInfo = AccountLayout.decode(info.data)
-					if(Number(accountInfo.amount)==0) throw new Error("Invalid Grand Parent Membership Nft info")
-					console.log(accountInfo.owner);
-					const grandParentMembershipOwner = new PublicKey(accountInfo.owner)
-
-
-					// grand grand parent
-					const grandGrandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.grandParentNfp, 'finalized')
-					if(grandGrandParentMembershipResp==null || grandGrandParentMembershipResp.value==null || grandGrandParentMembershipResp.value.length==0) throw new Error("Invalid NFP")
-					grandGrandParentMembershipAccount = grandGrandParentMembershipResp.value[0].address
-					info = await conn.getAccountInfo(grandGrandParentMembershipAccount, 'finalized')
-					if(info == null) throw new Error('grand parent membership info failed');
-					accountInfo = AccountLayout.decode(info.data)
-					if(Number(accountInfo.amount)==0) throw new Error("Invalid Grand Parent Membership Nft info")
-					const grandGrandParentMembershipOwner = new PublicKey(accountInfo.owner)
-
-
-					const grandGrandGrandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.grandGrandParentNfp, 'finalized')
-					if(grandGrandGrandParentMembershipResp==null || grandGrandGrandParentMembershipResp.value==null || grandGrandGrandParentMembershipResp.value.length==0) throw new Error("Invalid NFP")
-					grandGrandGrandParentMembershipAccount = grandGrandGrandParentMembershipResp.value[0].address
-					info = await conn.getAccountInfo(grandGrandGrandParentMembershipAccount, 'finalized')
-					if(info == null) throw new Error('grand parent membership info failed');
-					accountInfo = AccountLayout.decode(info.data)
-					if(Number(accountInfo.amount)==0) throw new Error("Invalid Grand Parent Membership Nft info")
-					const grandGrandGrandParentMembershipOwner = new PublicKey(accountInfo.owner)
-				} 				
 
 				transaction.add(hellDaoProgram.instruction.mint(
 					new anchor.BN(bump),
@@ -475,20 +444,21 @@ export default function Mint(){
 							parentNftOwner : parentMembershipOwner,
 							
 							// grandParentNftMint : parentMembership.extendedData.parentNfp,
-							grandParentNftAccount : grandParentMembershipAccount,
-							// grandParentNftOwner : grandParentMembershipOwner,
+							// grandParentNftAccount : grandParentMembershipAccount,
+							grandParentNftOwner : grandParentMembershipOwner,
 							
 							// grandGrandParentNftMint : parentMembership.extendedData.grandParentNfp,
-							grandGrandParentNftAccount : grandGrandParentMembershipAccount,
-							// grandGrandParentNftOwner : grandGrandParentMembershipOwner,
+							// grandGrandParentNftAccount : grandGrandParentMembershipAccount,
+							grandGrandParentNftOwner : grandGrandParentMembershipOwner,
 							// grandGrandGrandParentNftMint : parentMembership.extendedData.grandGrandParentNfp,
-							grandGrandGrandParentNftAccount : grandGrandGrandParentMembershipAccount,
-							// grandGrandGrandParentNftOwner : grandGrandGrandParentMembershipOwner,
+							// grandGrandGrandParentNftAccount : grandGrandGrandParentMembershipAccount,
+							grandGrandGrandParentNftOwner : grandGrandGrandParentMembershipOwner,
 							
-							// scobyWallet : poolData.scobyWallet,
+							scobyWallet : poolData.scobyWallet,
 							creatorNftAccount : creatorNftAccount,
+							creatorWallet : creatorWallet,
+
 							redlistTokenAccount : redlistTokenAccount,
-							// creatorWallet : creatorWallet,
 							// creatorScoutNftAccount : creatorScoutNftAccount,
 							// creatorScoutWallet : creatorScoutWallet,
 							tokenProgram : TOKEN_PROGRAM_ID,

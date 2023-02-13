@@ -241,20 +241,14 @@ pub mod solana_anchor {
 
         let metadata_extended = &mut ctx.accounts.metadata_extended;
 
-        let parent_nft_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.parent_nft_account.data.borrow())?;
-
-        let grand_parent_nft_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.grand_parent_nft_account.data.borrow())?;
-
-        let grand_grand_parent_nft_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.grand_grand_parent_nft_account.data.borrow())?;
-
-        let grand_grand_grand_parent_nft_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.grand_grand_grand_parent_nft_account.data.borrow())?;
         
         // init creator
         let creator_nft_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.creator_nft_account.data.borrow())?;
-
-        // let creator_scout_nft_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.creator_scout_nft_account.data.borrow())?;
         
-        msg!("+ prepare");
+        // init parent
+        let parent_nft_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.parent_nft_account.data.borrow())?;
+
+        msg!("+ prepare done");
         
         if nft_account.owner != *ctx.accounts.owner.key 
             || nft_account.amount != 1 
@@ -272,30 +266,31 @@ pub mod solana_anchor {
         let parent_nft_owner = parent_nft_account.owner;
         msg!("+ parent done");
 
-        if grand_parent_nft_account.amount != 1 {
-            return Err(PoolError::InvalidOldestMintRequirement.into());
-        }
+        // if grand_parent_nft_account.amount != 1 {
+        //     return Err(PoolError::InvalidOldestMintRequirement.into());
+        // }
 
-        let grand_parent_nft_owner = grand_parent_nft_account.owner;
+        let grand_parent_nft_owner = *ctx.accounts.grand_parent_nft_owner.key;
         msg!("+ grand parent done");
 
-        if grand_grand_parent_nft_account.amount != 1 {
-            return Err(PoolError::InvalidOldestMintRequirement.into());
-        }
+        // if grand_grand_parent_nft_account.amount != 1 {
+        //     return Err(PoolError::InvalidOldestMintRequirement.into());
+        // }
 
-        let grand_grand_parent_nft_owner = grand_grand_parent_nft_account.owner;
+        let grand_grand_parent_nft_owner = *ctx.accounts.grand_grand_parent_nft_owner.key;
         msg!("+ grand_grand parent done");
 
-        if grand_grand_grand_parent_nft_account.amount != 1 {
-            return Err(PoolError::InvalidOldestMintRequirement.into());
-        }
+        // if grand_grand_grand_parent_nft_account.amount != 1 {
+        //     return Err(PoolError::InvalidOldestMintRequirement.into());
+        // }
 
-        let grand_grand_grand_parent_nft_owner = grand_grand_grand_parent_nft_account.owner;
+        let grand_grand_grand_parent_nft_owner = *ctx.accounts.grand_grand_grand_parent_nft_owner.key;
         msg!("+ grand_grand_grand parent done");
 
-        // if pool.scoby_wallet != *ctx.accounts.scoby_wallet.key {
-        //     return Err(PoolError::InvalidPoolWallet.into());
-        // }
+        if pool.scoby_wallet != *ctx.accounts.scoby_wallet.key {
+            return Err(PoolError::InvalidPoolWallet.into());
+        }
+
         let scoby_wallet = pool.scoby_wallet;
         msg!("valid scoby");
 
@@ -351,7 +346,7 @@ pub mod solana_anchor {
             invoke(
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
-                    creator_wallet,
+                    ctx.accounts.creator_wallet.key,
                     pool.minting_price * pool.royalty_for_minting.creator as u64 / 10000 * discount / 100
                 ),
                 &[
@@ -366,12 +361,12 @@ pub mod solana_anchor {
             invoke(
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
-                    parent_nft_owner,
+                    ctx.accounts.parent_nft_owner.key,
                     pool.minting_price * pool.royalty_for_minting.parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    grand_parent_nft_owner,
+                    ctx.accounts.parent_nft_owner.clone,
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -381,12 +376,12 @@ pub mod solana_anchor {
             invoke(
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
-                    grand_parent_nft_owner,
+                    ctx.accounts.grand_parent_nft_owner.key,
                     pool.minting_price * pool.royalty_for_minting.grand_parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    grand_parent_nft_owner,
+                    ctx.accounts.grand_parent_nft_owner.clone(),,
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -396,12 +391,12 @@ pub mod solana_anchor {
             invoke(
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
-                    grand_grand_parent_nft_owner,
+                    ctx.accounts.grand_grand_parent_nft_owner.key,
                     pool.minting_price * pool.royalty_for_minting.grand_grand_parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    grand_grand_parent_nft_owner,
+                    ctx.accounts.grand_grand_parent_nft_owner.clone(),
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -412,12 +407,12 @@ pub mod solana_anchor {
             invoke(
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
-                    grand_grand_grand_parent_nft_owner,
+                    ctx.accounts.grand_grand_grand_parent_nft_owner.key,
                     pool.minting_price * pool.royalty_for_minting.grand_grand_grand_parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    grand_grand_grand_parent_nft_owner,
+                    ctx.accounts.grand_grand_grand_parent_nft_owner.clone(),
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -609,9 +604,6 @@ pub mod solana_anchor {
         metadata_extended.mint = nft_mint;
         metadata_extended.minter = *ctx.accounts.owner.key;
         metadata_extended.parent_nfp = parent_nft_account.mint;
-        metadata_extended.grand_parent_nfp = grand_parent_nft_account.mint;
-        metadata_extended.grand_grand_parent_nfp = grand_grand_parent_nft_account.mint;
-        metadata_extended.grand_grand_grand_parent_nfp = grand_grand_grand_parent_nft_account.mint;
         metadata_extended.number = pool.count_minting;
         metadata_extended.bump = _bump;
         pool.count_minting = pool.count_minting + 1;
@@ -640,20 +632,14 @@ pub mod solana_anchor {
 
         let metadata_extended = &mut ctx.accounts.metadata_extended;
 
-        let parent_nft_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.parent_nft_account.data.borrow())?;
-
-        let grand_parent_nft_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.grand_parent_nft_account.data.borrow())?;
-
-        let grand_grand_parent_nft_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.grand_grand_parent_nft_account.data.borrow())?;
-
-        let grand_grand_grand_parent_nft_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.grand_grand_grand_parent_nft_account.data.borrow())?;
         
         // init creator
         let creator_nft_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.creator_nft_account.data.borrow())?;
-
-        // let creator_scout_nft_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.creator_scout_nft_account.data.borrow())?;
         
-        msg!("+ prepare");
+        // init parent
+        let parent_nft_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.parent_nft_account.data.borrow())?;
+
+        msg!("+ prepare done");
         
         if nft_account.owner != *ctx.accounts.owner.key 
             || nft_account.amount != 1 
@@ -671,30 +657,31 @@ pub mod solana_anchor {
         let parent_nft_owner = parent_nft_account.owner;
         msg!("+ parent done");
 
-        if grand_parent_nft_account.amount != 1 {
-            return Err(PoolError::InvalidOldestMintRequirement.into());
-        }
+        // if grand_parent_nft_account.amount != 1 {
+        //     return Err(PoolError::InvalidOldestMintRequirement.into());
+        // }
 
-        let grand_parent_nft_owner = grand_parent_nft_account.owner;
+        let grand_parent_nft_owner = *ctx.accounts.grand_parent_nft_owner.key;
         msg!("+ grand parent done");
 
-        if grand_grand_parent_nft_account.amount != 1 {
-            return Err(PoolError::InvalidOldestMintRequirement.into());
-        }
+        // if grand_grand_parent_nft_account.amount != 1 {
+        //     return Err(PoolError::InvalidOldestMintRequirement.into());
+        // }
 
-        let grand_grand_parent_nft_owner = grand_grand_parent_nft_account.owner;
+        let grand_grand_parent_nft_owner = *ctx.accounts.grand_grand_parent_nft_owner.key;
         msg!("+ grand_grand parent done");
 
-        if grand_grand_grand_parent_nft_account.amount != 1 {
-            return Err(PoolError::InvalidOldestMintRequirement.into());
-        }
+        // if grand_grand_grand_parent_nft_account.amount != 1 {
+        //     return Err(PoolError::InvalidOldestMintRequirement.into());
+        // }
 
-        let grand_grand_grand_parent_nft_owner = grand_grand_grand_parent_nft_account.owner;
+        let grand_grand_grand_parent_nft_owner = *ctx.accounts.grand_grand_grand_parent_nft_owner.key;
         msg!("+ grand_grand_grand parent done");
 
-        // if pool.scoby_wallet != *ctx.accounts.scoby_wallet.key {
-        //     return Err(PoolError::InvalidPoolWallet.into());
-        // }
+        if pool.scoby_wallet != *ctx.accounts.scoby_wallet.key {
+            return Err(PoolError::InvalidPoolWallet.into());
+        }
+
         let scoby_wallet = pool.scoby_wallet;
         msg!("valid scoby");
 
@@ -735,9 +722,11 @@ pub mod solana_anchor {
         if _fake_id_hold {
             discount = 100 - (discount * 2);
         } else {
-            discount = 100- discount;
+            discount = 100 - discount;
         }
-        
+
+        msg!("discount");
+
         if *ctx.accounts.owner.key != scoby_wallet {
             invoke(
                 &system_instruction::transfer(
@@ -759,7 +748,7 @@ pub mod solana_anchor {
             invoke(
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
-                    creator_wallet,
+                    ctx.accounts.creator_wallet.key,
                     pool.minting_price * pool.royalty_for_minting.creator as u64 / 10000 * discount / 100
                 ),
                 &[
@@ -774,12 +763,12 @@ pub mod solana_anchor {
             invoke(
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
-                    &parent_nft_owner,
+                    ctx.accounts.parent_nft_owner.key,
                     pool.minting_price * pool.royalty_for_minting.parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    parent_nft_owner,
+                    ctx.accounts.parent_nft_owner.clone,
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -789,12 +778,12 @@ pub mod solana_anchor {
             invoke(
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
-                    &grand_parent_nft_owner,
+                    ctx.accounts.grand_parent_nft_owner.key,
                     pool.minting_price * pool.royalty_for_minting.grand_parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    grand_parent_nft_owner,
+                    ctx.accounts.grand_parent_nft_owner.clone(),,
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -804,12 +793,12 @@ pub mod solana_anchor {
             invoke(
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
-                    &grand_grand_parent_nft_owner,
+                    ctx.accounts.grand_grand_parent_nft_owner.key,
                     pool.minting_price * pool.royalty_for_minting.grand_grand_parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    grand_grand_parent_nft_owner,
+                    ctx.accounts.grand_grand_parent_nft_owner.clone(),
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -820,12 +809,12 @@ pub mod solana_anchor {
             invoke(
                 &system_instruction::transfer(
                     ctx.accounts.owner.key,
-                    &grand_grand_grand_parent_nft_owner,
-                    pool.minting_price * pool.royalty_for_minting.grand_grand_grand_parent as u64 / 10000 * discount / 100
+                    ctx.accounts.grand_grand_grand_parent_nft_owner.key,
+                    pool.minting_price * pool.royalty_for_minting.grand_grand_grand_parent as u64 / 10000 * discount / 100 
                 ),
                 &[
                     ctx.accounts.owner.clone(),
-                    grand_grand_grand_parent_nft_owner,
+                    ctx.accounts.grand_grand_grand_parent_nft_owner.clone(),
                     ctx.accounts.system_program.clone(),
                 ]
             )?;
@@ -1017,9 +1006,6 @@ pub mod solana_anchor {
         metadata_extended.mint = nft_mint;
         metadata_extended.minter = *ctx.accounts.owner.key;
         metadata_extended.parent_nfp = parent_nft_account.mint;
-        metadata_extended.grand_parent_nfp = grand_parent_nft_account.mint;
-        metadata_extended.grand_grand_parent_nfp = grand_grand_parent_nft_account.mint;
-        metadata_extended.grand_grand_grand_parent_nfp = grand_grand_grand_parent_nft_account.mint;
         metadata_extended.number = pool.count_minting;
         metadata_extended.bump = _bump;
         pool.count_minting = pool.count_minting + 1;
@@ -1084,32 +1070,35 @@ pub struct Mint<'info>{
     // #[account(mut)]
     // grand_parent_nft_mint : AccountInfo<'info>,
 
-    #[account(mut)]
-    grand_parent_nft_account : AccountInfo<'info>,
-
     // #[account(mut)]
-    // grand_parent_nft_owner : AccountInfo<'info>,
+    // grand_parent_nft_account : AccountInfo<'info>,
+
+    #[account(mut)]
+    grand_parent_nft_owner : AccountInfo<'info>,
 
     // #[account(mut)]
     // grand_grand_parent_nft_mint : AccountInfo<'info>,
 
+    // #[account(mut)]
+    // grand_grand_parent_nft_account : AccountInfo<'info>,
+
     #[account(mut)]
-    grand_grand_parent_nft_account : AccountInfo<'info>,
+    grand_grand_parent_nft_owner : AccountInfo<'info>,
 
     // #[account(mut)]
-    // grand_grand_parent_nft_owner : AccountInfo<'info>,
-
-    #[account(mut)]
-    grand_grand_grand_parent_nft_mint : AccountInfo<'info>,
+    // grand_grand_grand_parent_nft_mint : AccountInfo<'info>,
 
     // #[account(mut)]
     // grand_grand_grand_parent_nft_account : AccountInfo<'info>,
 
-    // #[account(mut)]
-    // grand_grand_grand_parent_nft_owner : AccountInfo<'info>,
+    #[account(mut)]
+    grand_grand_grand_parent_nft_owner : AccountInfo<'info>,
 
     #[account(mut)]
     creator_nft_account : AccountInfo<'info>,
+
+    #[account(mut)]
+    creator_wallet : AccountInfo<'info>,
 
     // #[account(mut)]
     // redlist_token_account : AccountInfo<'info>,
@@ -1120,8 +1109,8 @@ pub struct Mint<'info>{
     // #[account(mut)]
     // creator_scout_wallet : AccountInfo<'info>,
 
-    // #[account(mut)]
-    // scoby_wallet : AccountInfo<'info>,
+    #[account(mut)]
+    scoby_wallet : AccountInfo<'info>,
 
     #[account(address = spl_token::id())]
     token_program: AccountInfo<'info>,
@@ -1174,35 +1163,41 @@ pub struct MintWithRedlist<'info>{
     // #[account(mut)]
     // grand_parent_nft_mint : AccountInfo<'info>,
 
-    #[account(mut)]
-    grand_parent_nft_account : AccountInfo<'info>,
-
     // #[account(mut)]
-    // grand_parent_nft_owner : AccountInfo<'info>,
+    // grand_parent_nft_account : AccountInfo<'info>,
+
+    #[account(mut)]
+    grand_parent_nft_owner : AccountInfo<'info>,
 
     // #[account(mut)]
     // grand_grand_parent_nft_mint : AccountInfo<'info>,
 
+    // #[account(mut)]
+    // grand_grand_parent_nft_account : AccountInfo<'info>,
+
     #[account(mut)]
-    grand_grand_parent_nft_account : AccountInfo<'info>,
+    grand_grand_parent_nft_owner : AccountInfo<'info>,
 
     // #[account(mut)]
-    // grand_grand_parent_nft_owner : AccountInfo<'info>,
-
-    #[account(mut)]
-    grand_grand_grand_parent_nft_mint : AccountInfo<'info>,
+    // grand_grand_grand_parent_nft_mint : AccountInfo<'info>,
 
     // #[account(mut)]
     // grand_grand_grand_parent_nft_account : AccountInfo<'info>,
 
-    // #[account(mut)]
-    // grand_grand_grand_parent_nft_owner : AccountInfo<'info>,
+    #[account(mut)]
+    grand_grand_grand_parent_nft_owner : AccountInfo<'info>,
 
     #[account(mut)]
     creator_nft_account : AccountInfo<'info>,
 
     #[account(mut)]
+    creator_wallet : AccountInfo<'info>,
+
+    #[account(mut)]
     redlist_token_account : AccountInfo<'info>,
+
+    // #[account(mut)]
+    // redlist_token_account : AccountInfo<'info>,
 
     // #[account(mut)]
     // creator_scout_nft_account : AccountInfo<'info>,
@@ -1210,8 +1205,8 @@ pub struct MintWithRedlist<'info>{
     // #[account(mut)]
     // creator_scout_wallet : AccountInfo<'info>,
 
-    // #[account(mut)]
-    // scoby_wallet : AccountInfo<'info>,
+    #[account(mut)]
+    scoby_wallet : AccountInfo<'info>,
 
     #[account(address = spl_token::id())]
     token_program: AccountInfo<'info>,
@@ -1266,16 +1261,12 @@ pub struct InitConfig<'info>{
     config : AccountInfo<'info>,
 }
 
-pub const METADATA_EXTENDED_SIZE : usize = 32 + 32 + 32 + 32 + 32 + 32 + 4 + 4 + 1;
+pub const METADATA_EXTENDED_SIZE : usize = 32 + 32 + 32 + 4 + 1;
 #[account]
 pub struct MetadataExtended{
     pub mint : Pubkey,
     pub minter : Pubkey,
     pub parent_nfp : Pubkey,
-    pub grand_parent_nfp : Pubkey,
-    pub grand_grand_parent_nfp : Pubkey,
-    pub grand_grand_grand_parent_nfp : Pubkey,
-    pub children_count : u32,
     pub number : u32,
     pub bump : u8,
 }
