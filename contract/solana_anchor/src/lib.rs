@@ -179,7 +179,7 @@ pub mod solana_anchor {
         pool.rand = *ctx.accounts.rand.key;
         pool.config = *ctx.accounts.config.key;
         pool.count_minting = 0;
-        pool.minting_price = _minting_price/1000;
+        pool.minting_price = _minting_price;
         pool.update_authority = _update_authority;
         pool.scoby_wallet = _scoby_wallet;
         pool.redlist_black = _redlist_black;
@@ -209,7 +209,7 @@ pub mod solana_anchor {
             return Err(PoolError::InvalidOwner.into());
         }
         pool.update_authority = _update_authority;
-        pool.minting_price = _minting_price/1000;
+        pool.minting_price = _minting_price;
         pool.scoby_wallet = _scoby_wallet;
         pool.redlist_black = _redlist_black;
         pool.redlist_steel = _redlist_steel;
@@ -323,6 +323,7 @@ pub mod solana_anchor {
         }
 
         msg!("discount");
+        msg!(discount.to_string());
 
         if *ctx.accounts.owner.key != scoby_wallet {
             invoke(
@@ -724,6 +725,7 @@ pub mod solana_anchor {
         }
 
         msg!("discount");
+        msg!(discount.to_string());
 
         if *ctx.accounts.owner.key != scoby_wallet {
             invoke(
