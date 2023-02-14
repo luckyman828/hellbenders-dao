@@ -147,6 +147,18 @@
           "type": "publicKey"
         },
         {
+          "name": "redlistBlack",
+          "type": "publicKey"
+        },
+        {
+          "name": "redlistSteel",
+          "type": "publicKey"
+        },
+        {
+          "name": "redlistGold",
+          "type": "publicKey"
+        },
+        {
           "name": "mintingPrice",
           "type": "u64"
         },
@@ -188,6 +200,18 @@
           "type": "publicKey"
         },
         {
+          "name": "redlistBlack",
+          "type": "publicKey"
+        },
+        {
+          "name": "redlistSteel",
+          "type": "publicKey"
+        },
+        {
+          "name": "redlistGold",
+          "type": "publicKey"
+        },
+        {
           "name": "mintingPrice",
           "type": "u64"
         },
@@ -201,98 +225,6 @@
           "name": "royaltyForTrading",
           "type": {
             "defined": "Royalty"
-          }
-        }
-      ]
-    },
-    {
-      "name": "mintRoot",
-      "accounts": [
-        {
-          "name": "owner",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "pool",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "config",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "nftMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "nftAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "metadata",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "masterEdition",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "metadataExtended",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "sourceTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "scobyUsdcTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "scobyWallet",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenMetadataProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "bump",
-          "type": "u8"
-        },
-        {
-          "name": "data",
-          "type": {
-            "defined": "Metadata"
           }
         }
       ]
@@ -346,7 +278,22 @@
           "isSigner": false
         },
         {
-          "name": "parentNftMetadataExtended",
+          "name": "parentNftOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "grandParentNftOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "grandGrandParentNftOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "grandGrandGrandParentNftOwner",
           "isMut": true,
           "isSigner": false
         },
@@ -356,37 +303,12 @@
           "isSigner": false
         },
         {
-          "name": "sourceTokenAccount",
+          "name": "creatorWallet",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "scobyUsdcTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "creatorUsdcTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "parentNftUsdcTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "grandParentNftUsdcTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "grandGrandParentNftUsdcTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "grandGrandGrandParentNftUsdcTokenAccount",
+          "name": "scobyWallet",
           "isMut": true,
           "isSigner": false
         },
@@ -421,6 +343,136 @@
           "type": {
             "defined": "Metadata"
           }
+        },
+        {
+          "name": "fakeIdHold",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "mintWithRedlist",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "pool",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataExtended",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "parentNftAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "parentNftOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "grandParentNftOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "grandGrandParentNftOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "grandGrandGrandParentNftOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creatorNftAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creatorWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "redlistTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "scobyWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "data",
+          "type": {
+            "defined": "Metadata"
+          }
+        },
+        {
+          "name": "fakeIdHold",
+          "type": "bool"
         }
       ]
     }
@@ -442,22 +494,6 @@
           {
             "name": "parentNfp",
             "type": "publicKey"
-          },
-          {
-            "name": "grandParentNfp",
-            "type": "publicKey"
-          },
-          {
-            "name": "grandGrandParentNfp",
-            "type": "publicKey"
-          },
-          {
-            "name": "grandGrandGrandParentNfp",
-            "type": "publicKey"
-          },
-          {
-            "name": "childrenCount",
-            "type": "u32"
           },
           {
             "name": "number",
@@ -537,6 +573,18 @@
           },
           {
             "name": "scobyWallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "redlistBlack",
+            "type": "publicKey"
+          },
+          {
+            "name": "redlistSteel",
+            "type": "publicKey"
+          },
+          {
+            "name": "redlistGold",
             "type": "publicKey"
           },
           {

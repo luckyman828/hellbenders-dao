@@ -1283,7 +1283,7 @@ pub struct Metadata{
 
 
 // pub const POOL_SIZE : usize = 32 + 32 + 32 + 4 + 8 + 32 + 32 + ROYALTY_SIZE + ROYALTY_SIZE + 32 + 1;
-pub const POOL_SIZE : usize = 32 + 32 + 32 + 4 + 8 + 32 + 32 + 32 + ROYALTY_SIZE + ROYALTY_SIZE + 32 + 1;
+pub const POOL_SIZE : usize = 32 + 32 + 32 + 4 + 8 + 32 + 32 + 32 + ROYALTY_SIZE + ROYALTY_SIZE + 32 + 32 + 32 + 32 + 1;
 #[account]
 #[derive(Default)]
 pub struct Pool{
