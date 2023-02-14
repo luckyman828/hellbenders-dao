@@ -685,7 +685,7 @@ pub mod solana_anchor {
         let scoby_wallet = pool.scoby_wallet;
         msg!("valid scoby");
 
-        if creator_nft_account.amount != 1 {
+        if creator_nft_account.amount != 1 
             || creator_nft_account.owner != *ctx.accounts.creator_wallet.key {
             return Err(PoolError::InvalidCreatorWallet.into());
         }
