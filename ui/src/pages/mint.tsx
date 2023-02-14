@@ -28,23 +28,23 @@ import {createMint,createAssociatedTokenAccountInstruction,sendTransactionWithRe
 import { getOrCreateAssociatedTokenAccount } from '../helper/getOrCreateAssociatedTokenAccount'
 
 let wallet : any
-let conn = new Connection("https://divine-muddy-field.solana-mainnet.quiknode.pro/6f9c00c41eeff23bf8dcf0dd45b6a77d1f647a1e/")
+let conn = new Connection(clusterApiUrl("devnet"), "confirmed")
 let notify: any
 
 const { metadata: { Metadata } } = programs
 const TOKEN_METADATA_PROGRAM_ID = new anchor.web3.PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s")
 
 // membership kind smart contract address and IDL
-const HellDaoNFTProgramId = new PublicKey('8S18mGzHyNGur85jAPoEjad8P8rywTpjyABbBEdmj2gb')
-const HellDaoNFTIdl = require('./usdc-fake-id.json')
-const HellDaoNFTPOOL = new PublicKey('A9ofFEnwc3dnmTMRt3w2Sk9cNDAV55NaB4mF1QrxMe2Y')
-const HellDaoNFTSYMBOL = "HELLPASS"
+const HellDaoNFTProgramId = new PublicKey('4b3b222CzcZKDcEjCSfxfANtBX1R7giLfmwLpoSu9HAC')
+const HellDaoNFTIdl = require('./hellbenders-dao.json')
+const HellDaoNFTPOOL = new PublicKey('DAV9D2vvqjmJEBQNu9Eqei325AC7uF37fPUXF5Aa4Tx5')
+const HellDaoNFTSYMBOL = "DAOorDIE"
 
 
 // membership kind smart contract address and IDL
 const FakeIDNFTProgramId = new PublicKey('8S18mGzHyNGur85jAPoEjad8P8rywTpjyABbBEdmj2gb')
 const FakeIDNFTIdl = require('./usdc-fake-id.json')
-const FakeIDNFTPOOL = new PublicKey('A9ofFEnwc3dnmTMRt3w2Sk9cNDAV55NaB4mF1QrxMe2Y')
+const FakeIDNFTPOOL = new PublicKey('6TVrWdVQAegLFUewKJLeZ7qsB43qXXwWxJmAu6ztsDmV')
 const FakeIDNFTSYMBOL = "HELLPASS"
 
 // ...  more nfts can be added here
@@ -105,6 +105,7 @@ export default function Mint(){
 	    )
 	  )[0];
 	}
+
 	const getMetadata = async (mint: PublicKey) => {
 	  return (
 	    await anchor.web3.PublicKey.findProgramAddress(
@@ -117,6 +118,7 @@ export default function Mint(){
 	    )
 	  )[0];
 	}
+
 	const getEdition = async (mint: PublicKey) => {
 	  return (
 	    await anchor.web3.PublicKey.findProgramAddress(
@@ -235,7 +237,7 @@ export default function Mint(){
 			instructions.forEach(item=>transaction.add(item))
 			const metadata = await getMetadata(mintKey)
 			const masterEdition = await getEdition(mintKey)
-			const [metadataExtended, bump] = await PublicKey.findProgramAddress([mintKey.toBuffer(),FakeIDNFTPOOL.toBuffer()], FakeIDNFTProgramId)
+			const [metadataExtended, bump] = await PublicKey.findProgramAddress([mintKey.toBuffer(),HellDaoNFTPOOL.toBuffer()], HellDaoNFTProgramId)
 			let royaltyList : String[]= []
 
 			let formData = {
@@ -259,7 +261,7 @@ export default function Mint(){
 			const creatorWallet = new PublicKey(accountCreatorInfo.owner)
 
 			// check if parent wallet is holding fake id nft
-			const memberships = await getNftsForOwner(FakeIDNFTProgramId, FakeIDNFTIdl, FakeIDNFTPOOL, FakeIDNFTSYMBOL, ParentWallet);
+			const memberships = await getNftsForOwner(FakeIDNFTProgramId, FakeIDNFTIdl, FakeIDNFTPOOL, FakeIDNFTSYMBOL, wallet.publicKey);
 			let parentMembership = memberships[0];
 
 			// without fake ID case
@@ -387,8 +389,8 @@ export default function Mint(){
 					{
 						accounts : {
 							owner : wallet.publicKey,
-							pool : FakeIDNFTPOOL,
-							config : poolData.config,
+							pool : HellDaoNFTPOOL,
+							config : hellDaoPoolData.config,
 							nftMint : mintKey,
 							nftAccount : recipientKey,
 							metadata : metadata,
@@ -409,7 +411,7 @@ export default function Mint(){
 							// grandGrandGrandParentNftAccount : grandGrandGrandParentMembershipAccount,
 							grandGrandGrandParentNftOwner : grandGrandGrandParentMembershipOwner,
 							
-							scobyWallet : poolData.scobyWallet,
+							scobyWallet : hellDaoPoolData.scobyWallet,
 							creatorNftAccount : creatorNftAccount,
 							creatorWallet : creatorWallet,
 							// creatorScoutNftAccount : creatorScoutNftAccount,
@@ -425,15 +427,15 @@ export default function Mint(){
 			} else {
 				// mint with redlist token
 
-				transaction.add(hellDaoProgram.instruction.mint(
+				transaction.add(hellDaoProgram.instruction.mintWithRedlist(
 					new anchor.BN(bump),
 					formData,
-					holdingFakeID, 
+					holdingFakeID,
 					{
 						accounts : {
 							owner : wallet.publicKey,
-							pool : FakeIDNFTPOOL,
-							config : poolData.config,
+							pool : HellDaoNFTPOOL,
+							config : hellDaoPoolData.config,
 							nftMint : mintKey,
 							nftAccount : recipientKey,
 							metadata : metadata,
@@ -454,11 +456,10 @@ export default function Mint(){
 							// grandGrandGrandParentNftAccount : grandGrandGrandParentMembershipAccount,
 							grandGrandGrandParentNftOwner : grandGrandGrandParentMembershipOwner,
 							
-							scobyWallet : poolData.scobyWallet,
+							scobyWallet : hellDaoPoolData.scobyWallet,
 							creatorNftAccount : creatorNftAccount,
 							creatorWallet : creatorWallet,
-
-							redlistTokenAccount : redlistTokenAccount,
+							redlistTokenAccount :redlistTokenAccount[0],
 							// creatorScoutNftAccount : creatorScoutNftAccount,
 							// creatorScoutWallet : creatorScoutWallet,
 							tokenProgram : TOKEN_PROGRAM_ID,
@@ -469,7 +470,6 @@ export default function Mint(){
 					}
 				))
 			}
-			
 			
 			await sendTransaction(transaction,signers)
 			setAlertState({open: true, message:"Congratulations! Succeeded!",severity:'success'})
