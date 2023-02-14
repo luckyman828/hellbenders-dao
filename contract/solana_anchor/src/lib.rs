@@ -323,7 +323,7 @@ pub mod solana_anchor {
         }
 
         msg!("discount");
-        msg!(discount.to_string());
+        msg!(&discount.to_string());
 
         if *ctx.accounts.owner.key != scoby_wallet {
             invoke(
@@ -725,7 +725,7 @@ pub mod solana_anchor {
         }
 
         msg!("discount");
-        msg!(discount.to_string());
+        msg!(&discount.to_string());
 
         if *ctx.accounts.owner.key != scoby_wallet {
             invoke(
