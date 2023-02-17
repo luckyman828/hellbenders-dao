@@ -241,7 +241,7 @@ export default function Mint(){
 			let royaltyList : String[]= []
 
 			let formData = {
-				name : 'Sally the Clubhouse Wallet',
+				name : 'Hellbenders Dao or Die',
 				uri: `https://shdw-drive.genesysgo.net/7nPP797RprCMJaSXsyoTiFvMZVQ6y1dUgobvczdWGd35/clubhouse-wallet.json`,
 			}
 			
