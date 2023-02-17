@@ -496,7 +496,7 @@ export default function Mint(){
 			<div className="card">
 			{
 				poolData != null && 
-				<h6 className="card-title">Mint Membership: {poolData.countMinting+ "  Scoby Passes were minted"}</h6>
+				<h6 className="card-title">Mint Membership: {poolData.countMinting+ "  Fake IDs were minted"}</h6>
 			}
 				<form className="form">
 					{
