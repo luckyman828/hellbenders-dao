@@ -166,6 +166,7 @@ pub mod solana_anchor {
         _bump : u8,
         _update_authority : Pubkey,
         _scoby_wallet : Pubkey,
+        _legendary : Pubkey,
         _redlist_black : Pubkey,
         _redlist_steel : Pubkey,
         _redlist_gold : Pubkey,
@@ -179,9 +180,17 @@ pub mod solana_anchor {
         pool.rand = *ctx.accounts.rand.key;
         pool.config = *ctx.accounts.config.key;
         pool.count_minting = 0;
+        pool.count_group_1 = 0;
+        pool.count_group_2 = 0;
+        pool.count_group_3 = 0;
+        pool.count_group_4 = 0;
+        pool.count_group_5 = 0;
+        pool.count_group_6 = 0;
+
         pool.minting_price = _minting_price;
         pool.update_authority = _update_authority;
         pool.scoby_wallet = _scoby_wallet;
+        pool.legendary = _legendary;
         pool.redlist_black = _redlist_black;
         pool.redlist_steel = _redlist_steel;
         pool.redlist_gold = _redlist_gold;
@@ -211,6 +220,7 @@ pub mod solana_anchor {
         pool.update_authority = _update_authority;
         pool.minting_price = _minting_price;
         pool.scoby_wallet = _scoby_wallet;
+        pool.legendary = _legendary;
         pool.redlist_black = _redlist_black;
         pool.redlist_steel = _redlist_steel;
         pool.redlist_gold = _redlist_gold;
@@ -316,14 +326,29 @@ pub mod solana_anchor {
         msg!("enough sol");
         
         let mut discount : u64 = 100;
+        
+        let config_line = get_config_line(&ctx.accounts.config, 5)?;  // group 6
 
+        let group_minting_count : u32 = pool.count_group_6;
+
+        let group_number : u32 = 6;
+
+        
         if _fake_id_hold
         {
             discount = 95;
+
+            config_line = get_config_line(&ctx.accounts.config, 4)?; // group 5
+
+            group_minting_count = pool.count_group_5;
+
+            group_number = 5 ;
         }
 
         msg!("discount");
         msg!(&discount.to_string());
+
+        let config_line = get_config_line(&ctx.accounts.config, 1)?;
 
         if *ctx.accounts.owner.key != scoby_wallet {
             invoke(
@@ -526,7 +551,7 @@ pub mod solana_anchor {
         }
 
         // let sparkle_heart = vec![0u8];
-        let substring: String =_data.name.clone().replace(std::str::from_utf8(&vec![0u8]).unwrap(), "").to_owned() + &" #".to_owned() + &pool.count_minting.to_string();
+        let substring: String =&"Hellbenders Spawn Group #".to_owned() + &group_number.to_string().to_owned() + &"Unit #" + &group_minting_count.to_string();
         
         // msg!(&config_line.name.clone().replace(std::str::from_utf8(&vec![0u8]).unwrap(), "").len().to_string());
         // msg!(&substring);
@@ -543,7 +568,7 @@ pub mod solana_anchor {
                 pool.key(),
                 substring,
                 config_data.symbol.clone(),
-                _data.uri,
+                config_line.uri,
                 Some(creators),
                 config_data.seller_fee,
                 true,
@@ -607,6 +632,13 @@ pub mod solana_anchor {
         metadata_extended.number = pool.count_minting;
         metadata_extended.bump = _bump;
         pool.count_minting = pool.count_minting + 1;
+
+        if (group_number == 5)
+        {
+            pool.count_group_5 = pool.count_group_5 + 1;
+        } else {
+            pool.count_group_6 = pool.count_group_6 + 1;
+        } 
 
         Ok(())
     }
@@ -709,11 +741,41 @@ pub mod solana_anchor {
         let mut discount : u64 = 0;
         let redlist_token_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.redlist_token_account.data.borrow())?;
 
-        if redlist_token_account.mint == pool.redlist_gold {
+        let config_line = get_config_line(&ctx.accounts.config, 0)?; // group 1
+
+        let group_minting_count : u32 = pool.count_group_1;
+
+        let group_number : u32 = 1;
+
+        if redlist_token_account.mint == pool.legendary {
+            
+            discount = 25;
+        } else if redlist_token_account.mint == pool.redlist_gold {
+            
+            config_line = get_config_line(&ctx.accounts.config, 1)?; // group 2
+
+            group_minting_count = pool.count_group_2;
+
+            group_number = 2;
+            
             discount = 20;
         } else if redlist_token_account.mint == pool.redlist_steel {
+            
+            config_line = get_config_line(&ctx.accounts.config, 2)?; // group 3
+            
+            group_minting_count = pool.count_group_3;
+
+            group_number = 3;
+
             discount = 15;
         } else if redlist_token_account.mint == pool.redlist_black {
+            
+            config_line = get_config_line(&ctx.accounts.config, 0)?; // group 4 
+
+            group_minting_count = pool.count_group_4;
+
+            group_number = 4;
+
             discount = 10;
         }
 
@@ -928,7 +990,7 @@ pub mod solana_anchor {
         }
 
         // let sparkle_heart = vec![0u8];
-        let substring: String =_data.name.clone().replace(std::str::from_utf8(&vec![0u8]).unwrap(), "").to_owned() + &" #".to_owned() + &pool.count_minting.to_string();
+        let substring: String =&"Hellbenders Spawn Group #".to_owned() + &group_number.to_string().to_owned() + &"Unit #" + &group_minting_count.to_string();
         
         // msg!(&config_line.name.clone().replace(std::str::from_utf8(&vec![0u8]).unwrap(), "").len().to_string());
         // msg!(&substring);
@@ -945,7 +1007,7 @@ pub mod solana_anchor {
                 pool.key(),
                 substring,
                 config_data.symbol.clone(),
-                _data.uri,
+                config_line.uri,
                 Some(creators),
                 config_data.seller_fee,
                 true,
@@ -1009,6 +1071,17 @@ pub mod solana_anchor {
         metadata_extended.number = pool.count_minting;
         metadata_extended.bump = _bump;
         pool.count_minting = pool.count_minting + 1;
+
+        if (group_number == 1)
+        {
+            pool.count_group_1 = pool.count_group_1 + 1;
+        } else if (group_number == 2) {
+            pool.count_group_2 = pool.count_group_2 + 1;
+        } else if (group_number == 3) {
+            pool.count_group_3 = pool.count_group_3 + 1;
+        } else {
+            pool.count_group_4 = pool.count_group_4 + 1;
+        }
 
         Ok(())
     }
@@ -1283,13 +1356,19 @@ pub struct Metadata{
 
 
 // pub const POOL_SIZE : usize = 32 + 32 + 32 + 4 + 8 + 32 + 32 + ROYALTY_SIZE + ROYALTY_SIZE + 32 + 1;
-pub const POOL_SIZE : usize = 32 + 32 + 32 + 4 + 8 + 32 + 32 + 32 + ROYALTY_SIZE + ROYALTY_SIZE + 32 + 32 + 32 + 32 + 1;
+pub const POOL_SIZE : usize = 32 + 32 + 32 + 4 + 4 + 4 + 4 + 4 + 4 + 4 + 8 + 32 + 32 + 32 + ROYALTY_SIZE + ROYALTY_SIZE + 32 + 32 + 32 + 32 + 32 + 1;
 #[account]
 #[derive(Default)]
 pub struct Pool{
     pub owner : Pubkey,
     pub rand : Pubkey,
     pub config : Pubkey,
+    pub count_group_1 : u32,
+    pub count_group_2 : u32,
+    pub count_group_3 : u32,
+    pub count_group_4 : u32,
+    pub count_group_5 : u32,
+    pub count_group_6 : u32,
     pub count_minting : u32,
     pub minting_price : u64,
     pub update_authority : Pubkey,
@@ -1298,6 +1377,7 @@ pub struct Pool{
     pub royalty_for_minting : Royalty,
     pub royalty_for_trading : Royalty,
     pub scoby_wallet : Pubkey,
+    pub legendary : Pubkey,
     pub redlist_black : Pubkey,
     pub redlist_steel : Pubkey,
     pub redlist_gold : Pubkey,

@@ -678,6 +678,7 @@ programCommand('init_pool')
         new anchor.BN(bump),
         new PublicKey(infoJson.updateAuthority),
         new PublicKey(infoJson.scobyWallet),
+        new PublicKey(infoJson.legendary),
         new PublicKey(infoJson.redlistBlack),
         new PublicKey(infoJson.redlistSteel),
         new PublicKey(infoJson.redlistGold),
@@ -730,6 +731,7 @@ programCommand('update_pool')
       transaction.add(program.instruction.updatePool(
           new PublicKey(infoJson.updateAuthority),
           new PublicKey(infoJson.scobyWallet),
+          new PublicKey(infoJson.legendary),
           new PublicKey(infoJson.redlistBlack),
           new PublicKey(infoJson.redlistSteel),
           new PublicKey(infoJson.redlistGold),
