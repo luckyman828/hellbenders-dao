@@ -147,6 +147,10 @@
           "type": "publicKey"
         },
         {
+          "name": "legendary",
+          "type": "publicKey"
+        },
+        {
           "name": "redlistBlack",
           "type": "publicKey"
         },
@@ -197,6 +201,10 @@
         },
         {
           "name": "scobyWallet",
+          "type": "publicKey"
+        },
+        {
+          "name": "legendary",
           "type": "publicKey"
         },
         {
@@ -540,6 +548,30 @@
             "type": "publicKey"
           },
           {
+            "name": "countGroup1",
+            "type": "u32"
+          },
+          {
+            "name": "countGroup2",
+            "type": "u32"
+          },
+          {
+            "name": "countGroup3",
+            "type": "u32"
+          },
+          {
+            "name": "countGroup4",
+            "type": "u32"
+          },
+          {
+            "name": "countGroup5",
+            "type": "u32"
+          },
+          {
+            "name": "countGroup6",
+            "type": "u32"
+          },
+          {
             "name": "countMinting",
             "type": "u32"
           },
@@ -573,6 +605,10 @@
           },
           {
             "name": "scobyWallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "legendary",
             "type": "publicKey"
           },
           {
