@@ -204,6 +204,7 @@ pub mod solana_anchor {
         ctx : Context<UpdatePool>,
         _update_authority : Pubkey,
         _scoby_wallet : Pubkey,
+        _legendary : Pubkey,
         _redlist_black : Pubkey,
         _redlist_steel : Pubkey,
         _redlist_gold : Pubkey,
@@ -551,7 +552,7 @@ pub mod solana_anchor {
         }
 
         // let sparkle_heart = vec![0u8];
-        let substring: String =&"Hellbenders Spawn Group #".to_owned() + &group_number.to_string().to_owned() + &"Unit #" + &group_minting_count.to_string();
+        let substring: String ="Hellbenders Spawn Group #".to_owned() + &group_number.to_string().to_owned() + &"Unit #" + &group_minting_count.to_string();
         
         // msg!(&config_line.name.clone().replace(std::str::from_utf8(&vec![0u8]).unwrap(), "").len().to_string());
         // msg!(&substring);
@@ -633,7 +634,7 @@ pub mod solana_anchor {
         metadata_extended.bump = _bump;
         pool.count_minting = pool.count_minting + 1;
 
-        if (group_number == 5)
+        if group_number == 5
         {
             pool.count_group_5 = pool.count_group_5 + 1;
         } else {
@@ -990,7 +991,7 @@ pub mod solana_anchor {
         }
 
         // let sparkle_heart = vec![0u8];
-        let substring: String =&"Hellbenders Spawn Group #".to_owned() + &group_number.to_string().to_owned() + &"Unit #" + &group_minting_count.to_string();
+        let substring: String ="Hellbenders Spawn Group #".to_owned() + &group_number.to_string().to_owned() + &"Unit #" + &group_minting_count.to_string();
         
         // msg!(&config_line.name.clone().replace(std::str::from_utf8(&vec![0u8]).unwrap(), "").len().to_string());
         // msg!(&substring);
@@ -1072,12 +1073,12 @@ pub mod solana_anchor {
         metadata_extended.bump = _bump;
         pool.count_minting = pool.count_minting + 1;
 
-        if (group_number == 1)
+        if group_number == 1
         {
             pool.count_group_1 = pool.count_group_1 + 1;
-        } else if (group_number == 2) {
+        } else if group_number == 2 {
             pool.count_group_2 = pool.count_group_2 + 1;
-        } else if (group_number == 3) {
+        } else if group_number == 3 {
             pool.count_group_3 = pool.count_group_3 + 1;
         } else {
             pool.count_group_4 = pool.count_group_4 + 1;
