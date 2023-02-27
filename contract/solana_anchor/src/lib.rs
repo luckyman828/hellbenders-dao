@@ -328,11 +328,11 @@ pub mod solana_anchor {
         
         let mut discount : u64 = 100;
         
-        let config_line = get_config_line(&ctx.accounts.config, 5)?;  // group 6
+        let mut config_line = get_config_line(&ctx.accounts.config, 5)?;  // group 6
 
-        let group_minting_count : u32 = pool.count_group_6;
+        let mut group_minting_count : u32 = pool.count_group_6;
 
-        let group_number : u32 = 6;
+        let mut group_number : u32 = 6;
 
         
         if _fake_id_hold
@@ -742,11 +742,11 @@ pub mod solana_anchor {
         let mut discount : u64 = 0;
         let redlist_token_account : state::Account = state::Account::unpack_from_slice(&ctx.accounts.redlist_token_account.data.borrow())?;
 
-        let config_line = get_config_line(&ctx.accounts.config, 0)?; // group 1
+        let mut config_line = get_config_line(&ctx.accounts.config, 0)?; // group 1
 
-        let group_minting_count : u32 = pool.count_group_1;
+        let mut group_minting_count : u32 = pool.count_group_1;
 
-        let group_number : u32 = 1;
+        let mut group_number : u32 = 1;
 
         if redlist_token_account.mint == pool.legendary {
             
