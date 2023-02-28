@@ -332,7 +332,7 @@ pub mod solana_anchor {
 
         let mut group_minting_count : u32 = pool.count_group_6;
 
-        let mut group_name : String = "Open";
+        let mut group_name : String = "Open".to_string();
 
         
         if _fake_id_hold
@@ -343,7 +343,7 @@ pub mod solana_anchor {
 
             group_minting_count = pool.count_group_5;
 
-            group_name = "FID" ;
+            group_name = "FID".to_string();
         }
 
         msg!("discount");
@@ -746,7 +746,7 @@ pub mod solana_anchor {
 
         let mut group_minting_count : u32 = pool.count_group_1;
 
-        let mut group_name : String = "Legendary";
+        let mut group_name : String = "Legendary".to_string();
 
         if redlist_token_account.mint == pool.legendary {
             
@@ -757,7 +757,7 @@ pub mod solana_anchor {
 
             group_minting_count = pool.count_group_2;
 
-            group_name = "Gold";
+            group_name = "Gold".to_string();
             
             discount = 20;
         } else if redlist_token_account.mint == pool.redlist_steel {
@@ -766,7 +766,7 @@ pub mod solana_anchor {
             
             group_minting_count = pool.count_group_3;
 
-            group_name = "Steel";
+            group_name = "Steel".to_string();
 
             discount = 15;
         } else if redlist_token_account.mint == pool.redlist_black {
@@ -775,7 +775,7 @@ pub mod solana_anchor {
 
             group_minting_count = pool.count_group_4;
 
-            group_name = "Black";
+            group_name = "Black".to_string();
 
             discount = 10;
         }
