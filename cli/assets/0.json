@@ -1,23 +1,19 @@
 {
-  "name": "GENESIS Scoby Pass",
-  "symbol": "SCOBYPASS",
-  "description": "PLEASE NOTE: THIS IS THE SOLMAGNET FOR YOUR ENTIRE PROJECT! The royalties you earn for every collection in this project will be sent to the holder of this NFT. Protect it! Don’t lose it! Keep this NFT in cold storage in a hardware wallet. If you choose to gift it or sell it, be aware that you are gifting your entire project, which you should consider a complete business or franchise as much as a project.",
+  "name": "",
+  "symbol": "SPAWN",
+  "description": "This Hellbenders Spawn entitles you to build your bender in Group (#1)",
   "seller_fee_basis_points": 2000,
   "image": "0.png",
-  "external_url": "https://www.scoby.social/",
+  "external_url": "https://spawn.hellbenders.world/",
   "edition": 0,
   "attributes": [
     {
-      "trait_type": "Ecosystem",
-      "value": "Scoby"
+      "trait_type": "Group",
+      "value": "1"
     },
     {
-      "trait_type": "Protocol",
-      "value": "Social Crypto Syndication"
-    },
-    {
-      "trait_type": "Action",
-      "value": "Project Pass"
+      "trait_type": "Group Type",
+      "value": "Legendary"
     }
   ],
   "properties": {
@@ -36,7 +32,7 @@
     ]
   },
   "collection": {
-    "name": "Scoby Social",
+    "name": "Hellbenders Spawn",
     "family": "Mapshifting"
   }
 }

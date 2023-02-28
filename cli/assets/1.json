@@ -1,29 +1,25 @@
 {
-  "name": "Scoby Pass",
-  "symbol": "SCOBYPASS",
-  "description": "Welcome to Scoby SociaI! We're a Web3-native, censorship-resistant, token-gated, live audio-video ecosystem where you can share experiences, make connections, build community and earn royalties based on the NFTs you create, collect, curate and trade. We belong together. You belong with us. PLEASE NOTE: THIS PROJECT PASS NFT IS A SOLMAGNET! All of the royalties you’ll earn from minting and sharing Scoby Tokens will be sent to the holder of this Project Pass. Do not lose this. Keep it in cold storage in a hardware wallet. You are of course welcome to sell this or give it away, just please understand that you are selling or gifting what could be substantial future royalty streams. Price the sale accordingly.",
+  "name": "",
+  "symbol": "SPAWN",
+  "description": "This Hellbenders Spawn entitles you to build your bender in Group (#2)",
   "seller_fee_basis_points": 2000,
-  "image": "0.png",
-  "external_url": "https://www.scoby.social/",
+  "image": "1.png",
+  "external_url": "https://spawn.hellbenders.world/",
   "edition": 0,
   "attributes": [
     {
-      "trait_type": "Ecosystem",
-      "value": "Scoby"
+      "trait_type": "Group",
+      "value": "2"
     },
     {
-      "trait_type": "Protocol",
-      "value": "Social Crypto Syndication"
-    },
-    {
-      "trait_type": "Action",
-      "value": "Project Pass"
+      "trait_type": "Group Type",
+      "value": "Gold"
     }
   ],
   "properties": {
     "files": [
       {
-        "uri": "0.png",
+        "uri": "1.png",
         "type": "image/png"
       }
     ],
@@ -36,7 +32,7 @@
     ]
   },
   "collection": {
-    "name": "Scoby Social",
+    "name": "Hellbenders Spawn",
     "family": "Mapshifting"
   }
 }

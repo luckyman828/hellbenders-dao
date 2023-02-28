@@ -1,0 +1,38 @@
+{
+  "name": "",
+  "symbol": "SPAWN",
+  "description": "This Hellbenders Spawn entitles you to build your bender in Group (#4)",
+  "seller_fee_basis_points": 2000,
+  "image": "4.png",
+  "external_url": "https://spawn.hellbenders.world/",
+  "edition": 0,
+  "attributes": [
+    {
+      "trait_type": "Group",
+      "value": "4"
+    },
+    {
+      "trait_type": "Group Type",
+      "value": "Black"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "3.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "7zP1BjWppJNpVj1ioxpKE9SaejxSismd8J7d3ortEcNn",
+        "share": 100
+      }
+    ]
+  },
+  "collection": {
+    "name": "Hellbenders Spawn",
+    "family": "Mapshifting"
+  }
+}
