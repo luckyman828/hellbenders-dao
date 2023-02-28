@@ -67,7 +67,7 @@ const SaveFileShadowDrive = async (fileUrl: any, fileName: any) => {
   let data;
 
   // console.log(fileUrl);
-  let store_account = new PublicKey("npv3ffY39EpGApjroKZFHX8wM1MBWcrHm41Us8F6YWS") // ask leonel for direction
+  let store_account = new PublicKey("GUbAgSbgsg35ddrGN8vCuNBZ4tvEtZDmPasRL4hTTwVJ") // ask leonel for direction
   data = new FormData();
 
   const file = fs.readFileSync(fileUrl)
@@ -134,7 +134,7 @@ const SaveFileShadowDrive = async (fileUrl: any, fileName: any) => {
 
 const SaveJsonShadowDrive = async (fileUrl: any, fileName: any) => {
   let data;
-  let store_account = new PublicKey("npv3ffY39EpGApjroKZFHX8wM1MBWcrHm41Us8F6YWS") // ask leonel for direction
+  let store_account = new PublicKey("GUbAgSbgsg35ddrGN8vCuNBZ4tvEtZDmPasRL4hTTwVJ") // ask leonel for direction
   
   data = new FormData();
 
