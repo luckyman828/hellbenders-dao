@@ -36,7 +36,7 @@ const TOKEN_METADATA_PROGRAM_ID = new anchor.web3.PublicKey("metaqbxxUerdq28cj1R
 
 // membership kind smart contract address and IDL
 const HellDaoNFTProgramId = new PublicKey('4b3b222CzcZKDcEjCSfxfANtBX1R7giLfmwLpoSu9HAC')
-const HellDaoNFTIdl = require('./hellbenders-dao.json')
+const HellDaoNFTIdl = require('./hellbenders-spawn.json')
 const HellDaoNFTPOOL = new PublicKey('DAV9D2vvqjmJEBQNu9Eqei325AC7uF37fPUXF5Aa4Tx5')
 const HellDaoNFTSYMBOL = "DAOorDIE"
 

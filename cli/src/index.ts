@@ -35,7 +35,7 @@ const { metadata: { Metadata } } = programs
 var FormData = require('form-data');
 const programId = new PublicKey('4b3b222CzcZKDcEjCSfxfANtBX1R7giLfmwLpoSu9HAC')
 const TOKEN_METADATA_PROGRAM_ID = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s")
-const idl=JSON.parse(fs.readFileSync('src/hellbenders-dao.json','utf8'))
+const idl=JSON.parse(fs.readFileSync('src/hellbenders-spawn.json','utf8'))
 
 // const key = 'a498033f45742991a161'
 // const secret = '18f6582c5e2a5177785f8d6cdf3e3629f9a6cb57a27977d8725e2aa6ca3ebd7f'
