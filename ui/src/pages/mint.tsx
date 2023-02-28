@@ -37,7 +37,7 @@ const TOKEN_METADATA_PROGRAM_ID = new anchor.web3.PublicKey("metaqbxxUerdq28cj1R
 // membership kind smart contract address and IDL
 const SpawnNFTProgramId = new PublicKey('4b3b222CzcZKDcEjCSfxfANtBX1R7giLfmwLpoSu9HAC')
 const SpawnNFTIdl = require('./hellbenders-spawn.json')
-const SpawnNFTPOOL = new PublicKey('128y2sKw9Ux6HGBrLmdFNioMMYVqteXxLqTPoj8Zr8wU')
+const SpawnNFTPOOL = new PublicKey('AvLbAGoVemaebNymNyL689Yp7m7FaJuMA9tRdKdZBZZ8')
 const SpawnNFTSYMBOL = "SPAWN"
 
 
