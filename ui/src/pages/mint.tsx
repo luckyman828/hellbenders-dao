@@ -35,10 +35,10 @@ const { metadata: { Metadata } } = programs
 const TOKEN_METADATA_PROGRAM_ID = new anchor.web3.PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s")
 
 // membership kind smart contract address and IDL
-const HellDaoNFTProgramId = new PublicKey('4b3b222CzcZKDcEjCSfxfANtBX1R7giLfmwLpoSu9HAC')
-const HellDaoNFTIdl = require('./hellbenders-spawn.json')
-const HellDaoNFTPOOL = new PublicKey('DAV9D2vvqjmJEBQNu9Eqei325AC7uF37fPUXF5Aa4Tx5')
-const HellDaoNFTSYMBOL = "DAOorDIE"
+const SpawnNFTProgramId = new PublicKey('4b3b222CzcZKDcEjCSfxfANtBX1R7giLfmwLpoSu9HAC')
+const SpawnNFTIdl = require('./hellbenders-spawn.json')
+const SpawnNFTPOOL = new PublicKey('128y2sKw9Ux6HGBrLmdFNioMMYVqteXxLqTPoj8Zr8wU')
+const SpawnNFTSYMBOL = "SPAWN"
 
 
 // membership kind smart contract address and IDL
@@ -217,13 +217,13 @@ export default function Mint(){
 			const fakeIDPoolData = await fakeIDProgram.account.pool.fetch(FakeIDNFTPOOL)
 
 			// get  hell dao nft program
-			const hellDaoProgram = new anchor.Program(HellDaoNFTIdl,HellDaoNFTProgramId,provider)
+			const spawnProgram = new anchor.Program(SpawnNFTIdl,SpawnNFTProgramId,provider)
 			
 			// get fake id nft pool
-			const hellDaoPoolData = await hellDaoProgram.account.pool.fetch(HellDaoNFTPOOL)
+			const spawnPoolData = await spawnProgram.account.pool.fetch(SpawnNFTPOOL)
 			
 			// get config data of above pool
-			const hellDaoConfigData = await hellDaoProgram.account.config.fetch(hellDaoPoolData.config)
+			const spawnConfigData = await spawnProgram.account.config.fetch(spawnPoolData.config)
 
 			let transaction = new Transaction()
 			let createTokenAccountTransaction = new Transaction()
@@ -237,13 +237,13 @@ export default function Mint(){
 			instructions.forEach(item=>transaction.add(item))
 			const metadata = await getMetadata(mintKey)
 			const masterEdition = await getEdition(mintKey)
-			const [metadataExtended, bump] = await PublicKey.findProgramAddress([mintKey.toBuffer(),HellDaoNFTPOOL.toBuffer()], HellDaoNFTProgramId)
+			const [metadataExtended, bump] = await PublicKey.findProgramAddress([mintKey.toBuffer(),SpawnNFTPOOL.toBuffer()], SpawnNFTProgramId)
 			let royaltyList : String[]= []
 
-			let formData = {
-				name : 'Hellbenders Dao or Die',
-				uri: `https://shdw-drive.genesysgo.net/7nPP797RprCMJaSXsyoTiFvMZVQ6y1dUgobvczdWGd35/clubhouse-wallet.json`,
-			}
+			// let formData = {
+			// 	name : 'Hellbenders Dao or Die',
+			// 	uri: `https://shdw-drive.genesysgo.net/7nPP797RprCMJaSXsyoTiFvMZVQ6y1dUgobvczdWGd35/clubhouse-wallet.json`,
+			// }
 			
 			
 
@@ -348,7 +348,7 @@ export default function Mint(){
 				}
 			} 	
 
-			var redlistGoldToken = new PublicKey(hellDaoPoolData.redlistGold);
+			var redlistGoldToken = new PublicKey(spawnPoolData.redlistGold);
 			var redlistTokenAccount = await getOrCreateAssociatedTokenAccount(
 				conn,
 				wallet.pubkey,
@@ -359,7 +359,7 @@ export default function Mint(){
 
 			if(redlistTokenAccount[1]) {
 				// if there is no red list gold token
-				const redlistSteelToken = new PublicKey(hellDaoPoolData.redlistSteel);
+				const redlistSteelToken = new PublicKey(spawnPoolData.redlistSteel);
 				redlistTokenAccount = await getOrCreateAssociatedTokenAccount(
 					conn,
 					wallet.pubkey,
@@ -369,7 +369,7 @@ export default function Mint(){
 				);
 				if(redlistTokenAccount[1]) {
 					// if there is no redlist steel
-					const redlistBlackToken = new PublicKey(hellDaoPoolData.redlistSteel);
+					const redlistBlackToken = new PublicKey(spawnPoolData.redlistSteel);
 					redlistTokenAccount = await getOrCreateAssociatedTokenAccount(
 						conn,
 						wallet.pubkey,
@@ -382,15 +382,14 @@ export default function Mint(){
 
 			if (redlistTokenAccount[1]) {
 				// mint without redlist token
-				transaction.add(hellDaoProgram.instruction.mint(
+				transaction.add(spawnProgram.instruction.mint(
 					new anchor.BN(bump),
-					formData,
 					holdingFakeID,
 					{
 						accounts : {
 							owner : wallet.publicKey,
-							pool : HellDaoNFTPOOL,
-							config : hellDaoPoolData.config,
+							pool : SpawnNFTPOOL,
+							config : spawnPoolData.config,
 							nftMint : mintKey,
 							nftAccount : recipientKey,
 							metadata : metadata,
@@ -411,7 +410,7 @@ export default function Mint(){
 							// grandGrandGrandParentNftAccount : grandGrandGrandParentMembershipAccount,
 							grandGrandGrandParentNftOwner : grandGrandGrandParentMembershipOwner,
 							
-							scobyWallet : hellDaoPoolData.scobyWallet,
+							scobyWallet : spawnPoolData.scobyWallet,
 							creatorNftAccount : creatorNftAccount,
 							creatorWallet : creatorWallet,
 							// creatorScoutNftAccount : creatorScoutNftAccount,
@@ -427,15 +426,14 @@ export default function Mint(){
 			} else {
 				// mint with redlist token
 
-				transaction.add(hellDaoProgram.instruction.mintWithRedlist(
+				transaction.add(spawnProgram.instruction.mintWithRedlist(
 					new anchor.BN(bump),
-					formData,
 					holdingFakeID,
 					{
 						accounts : {
 							owner : wallet.publicKey,
-							pool : HellDaoNFTPOOL,
-							config : hellDaoPoolData.config,
+							pool : SpawnNFTPOOL,
+							config : spawnPoolData.config,
 							nftMint : mintKey,
 							nftAccount : recipientKey,
 							metadata : metadata,
@@ -456,7 +454,7 @@ export default function Mint(){
 							// grandGrandGrandParentNftAccount : grandGrandGrandParentMembershipAccount,
 							grandGrandGrandParentNftOwner : grandGrandGrandParentMembershipOwner,
 							
-							scobyWallet : hellDaoPoolData.scobyWallet,
+							scobyWallet : spawnPoolData.scobyWallet,
 							creatorNftAccount : creatorNftAccount,
 							creatorWallet : creatorWallet,
 							redlistTokenAccount :redlistTokenAccount[0],

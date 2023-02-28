@@ -234,7 +234,6 @@ pub mod solana_anchor {
     pub fn mint(
         ctx : Context<Mint>,
         _bump : u8,
-        _data : Metadata,
         _fake_id_hold : bool,
         ) -> ProgramResult {
         msg!("+ mint");
@@ -647,7 +646,6 @@ pub mod solana_anchor {
     pub fn mint_with_redlist(
         ctx : Context<MintWithRedlist>,
         _bump : u8,
-        _data : Metadata,
         _fake_id_hold : bool,
         ) -> ProgramResult {
         msg!("+ mint");
