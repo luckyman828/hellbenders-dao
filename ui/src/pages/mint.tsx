@@ -348,37 +348,52 @@ export default function Mint(){
 				}
 			} 	
 
-			var redlistGoldToken = new PublicKey(spawnPoolData.redlistGold);
+
+			const legendaryToken = new PublicKey(spawnPoolData.legendary);
 			var redlistTokenAccount = await getOrCreateAssociatedTokenAccount(
 				conn,
 				wallet.pubkey,
-				redlistGoldToken,
+				legendaryToken,
 				wallet.publicKey,
 				wallet.signedTransaction
 			);
+			
+			if(redlistTokenAccount[1]){
 
-			if(redlistTokenAccount[1]) {
-				// if there is no red list gold token
-				const redlistSteelToken = new PublicKey(spawnPoolData.redlistSteel);
+				const redlistGoldToken = new PublicKey(spawnPoolData.redlistGold);
 				redlistTokenAccount = await getOrCreateAssociatedTokenAccount(
 					conn,
 					wallet.pubkey,
-					redlistSteelToken,
+					redlistGoldToken,
 					wallet.publicKey,
 					wallet.signedTransaction
 				);
+
 				if(redlistTokenAccount[1]) {
-					// if there is no redlist steel
-					const redlistBlackToken = new PublicKey(spawnPoolData.redlistSteel);
+					// if there is no red list gold token
+					const redlistSteelToken = new PublicKey(spawnPoolData.redlistSteel);
 					redlistTokenAccount = await getOrCreateAssociatedTokenAccount(
 						conn,
 						wallet.pubkey,
-						redlistBlackToken,
+						redlistSteelToken,
 						wallet.publicKey,
 						wallet.signedTransaction
 					);
+					if(redlistTokenAccount[1]) {
+						// if there is no redlist steel
+						const redlistBlackToken = new PublicKey(spawnPoolData.redlistSteel);
+						redlistTokenAccount = await getOrCreateAssociatedTokenAccount(
+							conn,
+							wallet.pubkey,
+							redlistBlackToken,
+							wallet.publicKey,
+							wallet.signedTransaction
+						);
+					}
 				}
 			}
+
+			
 
 			if (redlistTokenAccount[1]) {
 				// mint without redlist token
