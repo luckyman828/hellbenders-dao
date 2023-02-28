@@ -332,7 +332,7 @@ pub mod solana_anchor {
 
         let mut group_minting_count : u32 = pool.count_group_6;
 
-        let mut group_name : string = "Open";
+        let mut group_name : String = "Open";
 
         
         if _fake_id_hold
@@ -746,7 +746,7 @@ pub mod solana_anchor {
 
         let mut group_minting_count : u32 = pool.count_group_1;
 
-        let mut group_name : string = "Legendary";
+        let mut group_name : String = "Legendary";
 
         if redlist_token_account.mint == pool.legendary {
             
