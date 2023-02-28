@@ -551,7 +551,7 @@ pub mod solana_anchor {
         }
 
         // let sparkle_heart = vec![0u8];
-        let substring: String ="Hellbenders ".to_owned() + &group_name.to_owned() + &"Spawn #".to_owned() + &group_minting_count.to_string();
+        let substring: String ="Hellbenders ".to_owned() + &group_name.to_owned() + &" Spawn #".to_owned() + &group_minting_count.to_string();
         
         // msg!(&config_line.name.clone().replace(std::str::from_utf8(&vec![0u8]).unwrap(), "").len().to_string());
         // msg!(&substring);
@@ -989,7 +989,7 @@ pub mod solana_anchor {
         }
 
         // let sparkle_heart = vec![0u8];
-        let substring: String ="Hellbenders ".to_owned() + &group_name.to_owned() + &"Spawn #".to_owned() + &group_minting_count.to_string();
+        let substring: String ="Hellbenders ".to_owned() + &group_name.to_owned() + &" Spawn #".to_owned() + &group_minting_count.to_string();
         
         // msg!(&config_line.name.clone().replace(std::str::from_utf8(&vec![0u8]).unwrap(), "").len().to_string());
         // msg!(&substring);

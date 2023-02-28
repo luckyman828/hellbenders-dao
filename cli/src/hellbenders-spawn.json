@@ -347,12 +347,6 @@
           "type": "u8"
         },
         {
-          "name": "data",
-          "type": {
-            "defined": "Metadata"
-          }
-        },
-        {
           "name": "fakeIdHold",
           "type": "bool"
         }
@@ -471,12 +465,6 @@
         {
           "name": "bump",
           "type": "u8"
-        },
-        {
-          "name": "data",
-          "type": {
-            "defined": "Metadata"
-          }
         },
         {
           "name": "fakeIdHold",
