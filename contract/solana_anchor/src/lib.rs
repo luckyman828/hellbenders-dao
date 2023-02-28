@@ -332,7 +332,7 @@ pub mod solana_anchor {
 
         let mut group_minting_count : u32 = pool.count_group_6;
 
-        let mut group_number : u32 = 6;
+        let mut group_name : string = "Open";
 
         
         if _fake_id_hold
@@ -343,7 +343,7 @@ pub mod solana_anchor {
 
             group_minting_count = pool.count_group_5;
 
-            group_number = 5 ;
+            group_name = "FID" ;
         }
 
         msg!("discount");
@@ -552,7 +552,7 @@ pub mod solana_anchor {
         }
 
         // let sparkle_heart = vec![0u8];
-        let substring: String ="Hellbenders Spawn Group #".to_owned() + &group_number.to_string().to_owned() + &"Unit #" + &group_minting_count.to_string();
+        let substring: String ="Hellbenders ".to_owned() + &group_name.to_owned() + &"Spawn #".to_owned() + &group_minting_count.to_string();
         
         // msg!(&config_line.name.clone().replace(std::str::from_utf8(&vec![0u8]).unwrap(), "").len().to_string());
         // msg!(&substring);
@@ -634,7 +634,7 @@ pub mod solana_anchor {
         metadata_extended.bump = _bump;
         pool.count_minting = pool.count_minting + 1;
 
-        if group_number == 5
+        if group_name == "FID"
         {
             pool.count_group_5 = pool.count_group_5 + 1;
         } else {
@@ -746,7 +746,7 @@ pub mod solana_anchor {
 
         let mut group_minting_count : u32 = pool.count_group_1;
 
-        let mut group_number : u32 = 1;
+        let mut group_name : string = "Legendary";
 
         if redlist_token_account.mint == pool.legendary {
             
@@ -757,7 +757,7 @@ pub mod solana_anchor {
 
             group_minting_count = pool.count_group_2;
 
-            group_number = 2;
+            group_name = "Gold";
             
             discount = 20;
         } else if redlist_token_account.mint == pool.redlist_steel {
@@ -766,7 +766,7 @@ pub mod solana_anchor {
             
             group_minting_count = pool.count_group_3;
 
-            group_number = 3;
+            group_name = "Steel";
 
             discount = 15;
         } else if redlist_token_account.mint == pool.redlist_black {
@@ -775,7 +775,7 @@ pub mod solana_anchor {
 
             group_minting_count = pool.count_group_4;
 
-            group_number = 4;
+            group_name = "Black";
 
             discount = 10;
         }
@@ -991,7 +991,7 @@ pub mod solana_anchor {
         }
 
         // let sparkle_heart = vec![0u8];
-        let substring: String ="Hellbenders Spawn Group #".to_owned() + &group_number.to_string().to_owned() + &"Unit #" + &group_minting_count.to_string();
+        let substring: String ="Hellbenders ".to_owned() + &group_name.to_owned() + &"Spawn #".to_owned() + &group_minting_count.to_string();
         
         // msg!(&config_line.name.clone().replace(std::str::from_utf8(&vec![0u8]).unwrap(), "").len().to_string());
         // msg!(&substring);
@@ -1073,12 +1073,12 @@ pub mod solana_anchor {
         metadata_extended.bump = _bump;
         pool.count_minting = pool.count_minting + 1;
 
-        if group_number == 1
+        if group_name == "Legendary"
         {
             pool.count_group_1 = pool.count_group_1 + 1;
-        } else if group_number == 2 {
+        } else if group_name == "Gold" {
             pool.count_group_2 = pool.count_group_2 + 1;
-        } else if group_number == 3 {
+        } else if group_name == "Steel" {
             pool.count_group_3 = pool.count_group_3 + 1;
         } else {
             pool.count_group_4 = pool.count_group_4 + 1;
