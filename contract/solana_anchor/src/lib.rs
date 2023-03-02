@@ -348,8 +348,6 @@ pub mod solana_anchor {
         msg!("discount");
         msg!(&discount.to_string());
 
-        let config_line = get_config_line(&ctx.accounts.config, 1)?;
-
         if *ctx.accounts.owner.key != scoby_wallet {
             invoke(
                 &system_instruction::transfer(
@@ -769,7 +767,7 @@ pub mod solana_anchor {
             discount = 15;
         } else if redlist_token_account.mint == pool.redlist_black {
             
-            config_line = get_config_line(&ctx.accounts.config, 0)?; // group 4 
+            config_line = get_config_line(&ctx.accounts.config, 3)?; // group 4 
 
             group_minting_count = pool.count_group_4;
 
