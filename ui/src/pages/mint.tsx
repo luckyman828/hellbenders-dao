@@ -278,7 +278,7 @@ export default function Mint(){
 				// with fake ID case
 				holdingFakeID = true;
 				// parent 
-				const parentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.mint, 'finalized')
+				const parentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.parentNfp, 'finalized')
 				
 				if(parentMembershipResp!=null && parentMembershipResp.value != null && parentMembershipResp.value.length != 0) {
 
@@ -298,7 +298,7 @@ export default function Mint(){
 
 
 				// grand parent 
-				const grandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.parentNfp, 'finalized')
+				const grandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.grandParentNfp, 'finalized')
 				if(grandParentMembershipResp!=null && grandParentMembershipResp.value != null && grandParentMembershipResp.value.length != 0) {
 
 					const grandParentMembershipAccount = grandParentMembershipResp.value[0].address
@@ -316,7 +316,7 @@ export default function Mint(){
 
 
 				// grand grand parent
-				const grandGrandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.grandParentNfp, 'finalized')
+				const grandGrandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.grandGrandgrandParentNfp, 'finalized')
 				if(grandGrandParentMembershipResp!=null && grandGrandParentMembershipResp.value != null && grandGrandParentMembershipResp.value.length != 0){
 					const grandGrandParentMembershipAccount = grandGrandParentMembershipResp.value[0].address
 					let info = await conn.getAccountInfo(grandGrandParentMembershipAccount, 'finalized')
@@ -330,7 +330,7 @@ export default function Mint(){
 				}
 
 
-				const grandGrandGrandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.grandGrandParentNfp, 'finalized')
+				const grandGrandGrandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.grandGrandGrandParentNfp, 'finalized')
 				if(grandGrandGrandParentMembershipResp!=null && grandGrandGrandParentMembershipResp.value != null && grandGrandGrandParentMembershipResp.value.length != 0) {
 
 					const grandGrandGrandParentMembershipAccount = grandGrandGrandParentMembershipResp.value[0].address
@@ -544,6 +544,12 @@ export default function Mint(){
 								</Typography>
 								<Typography variant="body2" color="text.secondary">
 								{"grandparent : "+ item.extendedData.grandParentNfp}
+								</Typography>
+								<Typography variant="body2" color="text.secondary">
+								{"grandparent : "+ item.extendedData.grandGrandParentNfp}
+								</Typography>
+								<Typography variant="body2" color="text.secondary">
+								{"grandparent : "+ item.extendedData.grandGrandGrandParentNfp}
 								</Typography>
 								<Typography variant="body2" color="text.secondary">
 								{"Followers : " + item.extendedData.childrenCount}
