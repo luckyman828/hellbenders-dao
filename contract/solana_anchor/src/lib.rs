@@ -744,10 +744,7 @@ pub mod solana_anchor {
 
         let mut group_name : String = "Legendary".to_string();
 
-        if redlist_token_account.mint == pool.legendary {
-            
-            discount = 25;
-        } else if redlist_token_account.mint == pool.redlist_gold {
+        if redlist_token_account.mint == pool.redlist_gold {
             
             config_line = get_config_line(&ctx.accounts.config, 1)?; // group 2
 
@@ -782,6 +779,11 @@ pub mod solana_anchor {
         } else {
             discount = 100 - discount;
         }
+
+        if redlist_token_account.mint == pool.legendary {
+            
+            discount = 50;
+        }  
 
         msg!("discount");
         msg!(&discount.to_string());
