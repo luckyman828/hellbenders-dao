@@ -11,8 +11,8 @@
 	"redlistGold" : "633EXNLhaCYsZtWC2nCNVvffkkZoXHHQbWJJF2pN46Kt",
 	"mintingPrice" : 6.66,
 	"royaltyForMinting" : {
-		"scoby" : 0,
-		"creator" : 6000,
+		"scoby" : 6000,
+		"creator" : 0,
 		"parent" : 2000,
 		"grandParent" : 1000,
 		"grandGrandParent" : 700,
