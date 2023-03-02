@@ -319,9 +319,9 @@ pub mod solana_anchor {
         // let creator_scout_wallet = creator_scout_nft_account.owner;
         // msg!("+ creator scout done");
 
-        if ctx.accounts.owner.lamports() < pool.minting_price {
-            return Err(PoolError::NotEnoughSol.into());
-        }
+        // if ctx.accounts.owner.lamports() < pool.minting_price {
+        //     return Err(PoolError::NotEnoughSol.into());
+        // }
 
         msg!("enough sol");
         
@@ -729,9 +729,9 @@ pub mod solana_anchor {
         // let creator_scout_wallet = creator_scout_nft_account.owner;
         // msg!("+ creator scout done");
 
-        if ctx.accounts.owner.lamports() < pool.minting_price {
-            return Err(PoolError::NotEnoughSol.into());
-        }
+        // if ctx.accounts.owner.lamports() < pool.minting_price {
+        //     return Err(PoolError::NotEnoughSol.into());
+        // }
 
         msg!("enough sol");
         
