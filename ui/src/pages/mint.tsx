@@ -316,7 +316,7 @@ export default function Mint(){
 
 
 				// grand grand parent
-				const grandGrandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.grandGrandgrandParentNfp, 'finalized')
+				const grandGrandParentMembershipResp = await conn.getTokenLargestAccounts(parentMembership.extendedData.grandGrandParentNfp, 'finalized')
 				if(grandGrandParentMembershipResp!=null && grandGrandParentMembershipResp.value != null && grandGrandParentMembershipResp.value.length != 0){
 					const grandGrandParentMembershipAccount = grandGrandParentMembershipResp.value[0].address
 					let info = await conn.getAccountInfo(grandGrandParentMembershipAccount, 'finalized')
