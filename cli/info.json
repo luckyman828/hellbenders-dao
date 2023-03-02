@@ -9,7 +9,7 @@
 	"redlistBlack" : "6Rc7PjgTpBMxx8AcY9DPCXXZEzFKL8yxuPuY2JtYVTKT",
 	"redlistSteel" : "Gk4cCRu2HnqWm19kjkDiuseQfnRRLbnDEdRJCYWHBTQx",
 	"redlistGold" : "633EXNLhaCYsZtWC2nCNVvffkkZoXHHQbWJJF2pN46Kt",
-	"mintingPrice" : 1,
+	"mintingPrice" : 6.66,
 	"royaltyForMinting" : {
 		"scoby" : 0,
 		"creator" : 6000,
