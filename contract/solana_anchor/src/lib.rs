@@ -336,7 +336,7 @@ pub mod solana_anchor {
         
         if _fake_id_hold
         {
-            discount = 95;
+            discount = 90;
 
             config_line = get_config_line(&ctx.accounts.config, 4)?; // group 5
 
